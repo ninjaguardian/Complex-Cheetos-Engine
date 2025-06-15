@@ -45,9 +45,8 @@ __point_y = 0;
 #endregion
 
 if (_board_type == BATTLE_BOARD_TYPES.MAIN) {
-	global.main_battle_board = self;
+	global.main_battle_board = id;
 	surface_mask = -1;
-	__surface_frame = -1;
 	
 	shd_mask_clip_mask = shader_get_uniform(shd_mask_clip, "u_mask");
 	shd_mask_clip_bgcolor = shader_get_uniform(shd_mask_clip  , "u_bgcolor");

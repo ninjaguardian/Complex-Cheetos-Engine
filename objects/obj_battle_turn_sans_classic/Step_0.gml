@@ -6,11 +6,11 @@ switch (turn)
 	case 0:
 		if (timer == 15)
 			Battle_Flash(off);
-		if (timer == 20)
-			instance_create_depth(320, 320, 0, obj_battle_board, {_board_type : BATTLE_BOARD_TYPES.OR});
-		//if (timer == 30)
-		//	Battle_SetBoardAngle(45);
 		if (timer == 500)
+			instance_create_depth(320, 320, 0, obj_battle_board, {_board_type : BATTLE_BOARD_TYPES.OR});
+		if (timer == 300)
+			Battle_SetBoardAngle(60);
+		if (timer == 5000)
 			Battle_EndTurn();
 		break;
 	//case 0: // Intro attack
