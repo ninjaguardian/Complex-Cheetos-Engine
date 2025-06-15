@@ -1,11 +1,17 @@
-///@func Battle_IsBoardTransforming()
-///@desc Return whenever the battle board is resizing or not.
-///@return {Bool}
-function Battle_IsBoardTransforming() {
-	return (instance_exists(global.main_battle_board)) ? (TweenExists({target: global.main_battle_board})) : false;
+// feather ignore GM1062
+
+/**
+ * @func Battle_IsBoardTransforming([instance])
+ * @desc Return if the battle board is resizing or not.
+ * @param {id.instance<obj_battle_board>} [instance] Battle board instance or 'noone' to use main. (Default: noone)
+ * @returns {bool} Is the battle board resizing?
+ */
+function Battle_IsBoardTransforming(_inst = noone) {
+	if (_inst == noone || !instance_exists(_inst)) _inst = global.main_battle_board;
+	return (instance_exists(_inst)) ? (TweenExists({target: _inst})) : false;
 }
 
-///@func Battle_SetBoardSize(up, down, left, right, [duration], [ease], [delay])
+///@func Battle_SetBoardSize(up, down, left, right, [duration], [ease], [delay], [instance])
 ///@desc Set the size of the battle board (in pixel of course).
 ///@param {Real}				up				The top side of the board. (Default: 65)
 ///@param {Real}				down			The bottom side of the board. (Default: 65)
@@ -14,8 +20,10 @@ function Battle_IsBoardTransforming() {
 ///@param {Real}				[duration]		The duration of the transformation in frame. (Default: 25)
 ///@param {String, Function}	[ease]			The easing string or function for the transformation. (Default: linear)
 ///@param {Real}				[delay]			The delay before transformation start. (Default: 0)
-function Battle_SetBoardSize(_up, _down, _left, _right, _duration = 25, _ease = "", _delay = 0) {
-	with (global.main_battle_board)
+///@param {id.instance<obj_battle_board>}	[instance]	Battle board instance or 'noone' to use main. (Default: noone)
+function Battle_SetBoardSize(_up, _down, _left, _right, _duration = 25, _ease = "", _delay = 0, _inst = noone) {
+	if (_inst == noone || !instance_exists(_inst)) _inst = global.main_battle_board;
+	with (_inst)
 	{
 		if (_duration <= 0)
 		{ up = _up; down = _up; left = _left; right = _right; }
@@ -32,14 +40,16 @@ function Battle_SetBoardSize(_up, _down, _left, _right, _duration = 25, _ease = 
 	}
 }
 
-///@func Battle_SetBoardAngle(angle, [duration], [ease], [delay])
+///@func Battle_SetBoardAngle(angle, [duration], [ease], [delay], [instance])
 ///@desc Set the size of the battle board (in pixel of course).
 ///@param {Real}				angle			The angle to rotate to. (Default: 0)
 ///@param {Real}				[duration]		The duration of the transformation in frame. (Default: 25)
 ///@param {String, Function}	[ease]			The easing string or function for the transformation. (Default: linear)
 ///@param {Real}				[delay]			The delay before transformation start. (Default: 0)
-function Battle_SetBoardAngle(_angle, _duration = 25, _ease = "", _delay = 0) {
-	with (global.main_battle_board)
+///@param {id.instance<obj_battle_board>}	[instance]	Battle board instance or 'noone' to use main. (Default: noone)
+function Battle_SetBoardAngle(_angle, _duration = 25, _ease = "", _delay = 0, _inst = noone) {
+	if (_inst == noone || !instance_exists(_inst)) _inst = global.main_battle_board;
+	with (_inst)
 	{
 		if (_duration <= 0)
 		{ image_angle = _angle }
@@ -50,11 +60,13 @@ function Battle_SetBoardAngle(_angle, _duration = 25, _ease = "", _delay = 0) {
 	}
 }
 
-///@func Battle_BoardMaskSet([use_texture], [mask_enable])
+///@func Battle_BoardMaskSet([use_texture], [mask_enable], [instance])
 ///@desc Set all further drawing to be (only) visible within the board mask.
 ///@param {Bool}	[use_texture]	Whenever further drawing includes sprite or just primitive draw functions (like draw_line(), draw_rectangle()...). (Default: false)
 ///@param {Bool}	[mask_enable]	Whenever further drawing will be masked within the board or not. (Default: true)
-function Battle_BoardMaskSet(_use_texture = false, _mask_enable = true) {
+///@param {id.instance<obj_battle_board>}	[instance]	Battle board instance or 'noone' to use main. (Default: noone)
+function Battle_BoardMaskSet(_use_texture = false, _mask_enable = true, _inst = noone) {
+	if (_inst == noone || !instance_exists(_inst)) _inst = global.main_battle_board;
 	var _mask_shader = (!_use_texture) ? shd_clip_mask_primitive : shd_clip_mask_sprite;
 	shader_set(_mask_shader);
 	var _u_mask = shader_get_sampler_index(_mask_shader, "u_mask"),
@@ -63,7 +75,7 @@ function Battle_BoardMaskSet(_use_texture = false, _mask_enable = true) {
 	
 	shader_set_uniform_f(_u_rect, 0, 0, 640, 480);
 	shader_set_uniform_f(_u_maskEnable, _mask_enable);
-	texture_set_stage(_u_mask, surface_get_texture(global.main_battle_board.surface_mask));
+	texture_set_stage(_u_mask, surface_get_texture(_inst.surface_mask));
 }
 
 ///@func Battle_BoardMaskReset()

@@ -1,3 +1,6 @@
+if (!is_undefined(ui_info) && surface_exists(ui_info.surf_hp_mask))
+	surface_free(ui_info.surf_hp_mask);
+
 delete ui_info;
 delete ui_button;
 delete ui_fight;

@@ -33,10 +33,10 @@ with (ui_info)
 			_lv_counter_x = _lv_icon_x + string_width(_lv_icon);
 			
 		// Label
-		var _color_final = color_lv_label;
+		_color_final = color_lv_label;
 		draw_text_color(_lv_icon_x, y, _lv_icon, _color_final, _color_final, _color_final, _color_final, _alpha_final);
 		// Counter
-		var _color_final = color_lv;
+		_color_final = color_lv;
 		draw_text_color(_lv_counter_x, y, lv, _color_final, _color_final, _color_final, _color_final, _alpha_final);
 	}
 	
@@ -52,31 +52,51 @@ with (ui_info)
 	}
 	
 	// HP and Max HP bars
+	if (!surface_exists(surf_hp_mask)) {
+		surf_hp_mask = surface_create(_bar_hp_max, 20);
+	} else if (surface_get_width(surf_hp_mask) != _bar_hp_max) {
+		surface_free(surf_hp_mask);
+		surf_hp_mask = surface_create(_bar_hp_max, 20);
+	}
+	surface_set_target(surf_hp_mask);
+	draw_clear_alpha(c_black, 0);
+	
 	_alpha_final = image_alpha * alpha_bars;
 	if (_alpha_final > 0)
 	{
 		// Max HP (background bar)
 		_color_final = color_hp_max_bar;
-		draw_sprite_ext(spr_pixel, 0, x + 245, y, _bar_hp_max, 20, 0, _color_final, _alpha_final);
+		draw_sprite_ext(spr_pixel, 0, 0, 0, _bar_hp_max, 20, 0, _color_final, _alpha_final);
 		// HP
 		_color_final = color_hp_bar;
-		draw_sprite_ext(spr_pixel, 0, x + 245, y, _bar_hp, 20, 0, _color_final, _alpha_final);
+		draw_sprite_ext(spr_pixel, 0, 0, 0, _bar_hp, 20, 0, _color_final, _alpha_final);
 	}
 	
-	var _kr = round(kr),
-		_color_final = (_kr > 0) ? color_kr_active : color_kr_idle;
+	var _kr = round(kr);
+	_color_final = (_kr > 0) ? color_kr_active : color_kr_idle;
 	if (_kr_enable)
-	{		
+	{
 		_alpha_final = image_alpha * alpha_kr;
 		if (_alpha_final > 0)
 		{
 			// Draw the bar
 			if (_kr > 0)
-				draw_sprite_ext(spr_pixel, 0, x + 245 + _bar_hp + 1, y, max(-_bar_kr, -_bar_hp) - 1, 20, 0, _color_final, _alpha_final);
+				draw_sprite_ext(spr_pixel, 0, _bar_hp + 1, 0, max(-_bar_kr, -_bar_hp) - 1, 20, 0, _color_final, _alpha_final);
 			// Draw icon
+			surface_reset_target();
 			draw_text_color(x + 245 + _bar_hp_max + 10, y + 5, kr_label, _color_final, _color_final, _color_final, _color_final, _alpha_final);
+			surface_set_target(surf_hp_mask);
 		}
 	}
+	
+	gpu_set_blendmode(bm_subtract);
+	
+	draw_sprite_ext(spr_battle_hp, 0, 0, 0, _bar_hp_max / sprite_get_width(spr_battle_hp), 20 / sprite_get_height(spr_battle_hp), 0, c_white, 1);
+	
+	gpu_set_blendmode(bm_normal);
+	surface_reset_target();
+	
+	draw_surface(surf_hp_mask, x + 245, y);
 	
 	// Counter Font (font for HP counter)
 	draw_set_font(font_mars_needs_cunnilingus);
@@ -97,4 +117,3 @@ with (ui_info)
 		draw_text_color(x + 245 + _bar_hp_max + _ui_x_offset, y, $"{_counter_hp} / {_counter_hp_max}", _color_final, _color_final, _color_final, _color_final, _alpha_final);
 	}
 }
-

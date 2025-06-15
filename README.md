@@ -1,7 +1,9 @@
-# TML's Undertale Engine - Cheetos's Edition
-A heavily modified TML engine by Panthervention for GameMaker 2024.13+
+# TML's Undertale Engine - Complex Cheetos's Edition
+Ninjaguardian's modified version of the heavily modified TML engine by Panthervention for GameMaker 2024.13+
 
-This engine edition features blue soul related functionalities, and mostly Sans related assets for battle (bone, blaster, platform, kr) with a small demo.
+Panthervention's engine edition features blue soul related functionalities, and mostly Sans related assets for battle (bone, blaster, platform, kr) with a small demo.
+
+This engine expands on that by adding more ways to interact with the battle box, and it changes some design related elements.
 
 # How do I import?
 - For project setup, you should download and load the .yyz file so you can also import engine's proper settings like Texture Groups and some project behaviors.

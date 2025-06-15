@@ -7,9 +7,11 @@ switch (turn)
 		if (timer == 15)
 			Battle_Flash(off);
 		if (timer == 500)
-			instance_create_depth(320, 320, 0, obj_battle_board, {_board_type : BATTLE_BOARD_TYPES.OR});
+			OR_test = instance_create_depth(320, 320, 0, obj_battle_board, {_board_type : BATTLE_BOARD_TYPES.OR});
 		if (timer == 300)
 			Battle_SetBoardAngle(60);
+		if (timer == 600)
+			Battle_SetBoardAngle(45, 25, "", 0, OR_test);
 		if (timer == 5000)
 			Battle_EndTurn();
 		break;

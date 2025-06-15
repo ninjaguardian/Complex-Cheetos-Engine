@@ -976,6 +976,7 @@
     {"id":{"name":"spr_battle_dialog_enemy_corner","path":"sprites/spr_battle_dialog_enemy_corner/spr_battle_dialog_enemy_corner.yy",},},
     {"id":{"name":"spr_battle_dialog_enemy_spike_wide","path":"sprites/spr_battle_dialog_enemy_spike_wide/spr_battle_dialog_enemy_spike_wide.yy",},},
     {"id":{"name":"spr_battle_dialog_enemy_spike","path":"sprites/spr_battle_dialog_enemy_spike/spr_battle_dialog_enemy_spike.yy",},},
+    {"id":{"name":"spr_battle_hp","path":"sprites/spr_battle_hp/spr_battle_hp.yy",},},
     {"id":{"name":"spr_battle_menu_fight_anim_knife","path":"sprites/spr_battle_menu_fight_anim_knife/spr_battle_menu_fight_anim_knife.yy",},},
     {"id":{"name":"spr_battle_menu_fight_bg","path":"sprites/spr_battle_menu_fight_bg/spr_battle_menu_fight_bg.yy",},},
     {"id":{"name":"spr_battle_menu_fight_recticle","path":"sprites/spr_battle_menu_fight_recticle/spr_battle_menu_fight_recticle.yy",},},

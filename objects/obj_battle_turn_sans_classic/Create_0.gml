@@ -10,3 +10,5 @@ slam_max = 8;
 g = 4;
 gg = 4;
 gg2 = 4;
+
+OR_test = noone;

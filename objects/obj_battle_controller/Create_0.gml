@@ -50,6 +50,8 @@ with (ui_info)
 	color_hp_max_bar = c_red;
 	color_hp_bar = c_yellow;
 	color_kr_bar = color_kr_active;
+	
+	surf_hp_mask = -1;
 }
 
 with (ui_button)
