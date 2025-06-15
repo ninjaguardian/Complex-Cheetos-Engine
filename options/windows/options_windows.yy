@@ -7,7 +7,7 @@
   "option_windows_company_info":"Cheetos",
   "option_windows_copyright_info":"20XX~20XX TML",
   "option_windows_copy_exe_to_dest":false,
-  "option_windows_description_info":"Made from Cheetos's TML Engine",
+  "option_windows_description_info":"Made from Cheetos's TML Engine & Panthervention's Cheetos Engine",
   "option_windows_disable_sandbox":true,
   "option_windows_display_cursor":true,
   "option_windows_display_name":"UNDERTALE Engine",
