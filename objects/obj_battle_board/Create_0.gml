@@ -2,7 +2,7 @@
 depth = DEPTH_BATTLE.BOARD;
 image_alpha = 1;
 
-surface_clip = -1;
+//surface_clip = -1;
 surface_mask = -1;
 
 x = BATTLE_BOARD.X;
@@ -48,3 +48,6 @@ __point_x = 0;
 __point_y = 0;
 #endregion
 
+if (_board_type == BATTLE_BOARD_TYPES.MAIN) {
+	global.main_battle_board = self;
+}

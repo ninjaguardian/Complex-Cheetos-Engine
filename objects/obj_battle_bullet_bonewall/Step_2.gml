@@ -5,7 +5,7 @@ if (active)
 		var _spr = bone_index,
 			_spr_width = sprite_get_width(_spr);
 
-		var _board = obj_battle_board,
+		var _board = global.main_battle_board,
 			_board_x = _board.x,
 			_board_y = _board.y,
 			_board_u = _board_y - _board.up,

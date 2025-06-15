@@ -98,8 +98,8 @@ with (ui_fight)
 		
 		sprite_index = spr_battle_menu_fight_bg;
 		image_index = 0; // 0 for the pixelated - 1 for the HD
-		x = obj_battle_board.x;
-		y = obj_battle_board.y;
+		x = global.main_battle_board.x;
+		y = global.main_battle_board.y;
 		image_xscale = 1;
 		image_yscale = 1;
 		image_angle = 0;
@@ -123,11 +123,11 @@ with (ui_fight)
 		__effect_color = c_white;
 
 		__aim_x = (__dir == DIR.LEFT) ?
-				 (x - obj_battle_board.left - sprite_get_width(spr_battle_menu_fight_recticle) / 2):
-				 (x + obj_battle_board.right + sprite_get_width(spr_battle_menu_fight_recticle) / 2);
+				 (x - global.main_battle_board.left - sprite_get_width(spr_battle_menu_fight_recticle) / 2):
+				 (x + global.main_battle_board.right + sprite_get_width(spr_battle_menu_fight_recticle) / 2);
 		__aim_x_change = (__dir == DIR.LEFT) ?
-						 (obj_battle_board.left + obj_battle_board.right + sprite_get_width(spr_battle_menu_fight_recticle)):
-						-(obj_battle_board.left + obj_battle_board.right + sprite_get_width(spr_battle_menu_fight_recticle));
+						 (global.main_battle_board.left + global.main_battle_board.right + sprite_get_width(spr_battle_menu_fight_recticle)):
+						-(global.main_battle_board.left + global.main_battle_board.right + sprite_get_width(spr_battle_menu_fight_recticle));
 		__aim_x_target = __aim_x + __aim_x_change;
 		__aim_x_tween = TweenFire(self, "", 0, off, 0, 90, "__aim_x>", __aim_x_target);
 	}

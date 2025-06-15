@@ -109,8 +109,8 @@ switch (_menu_state)
 				var _item_chose_first = obj_battle_controller.__menu_choice_item_first,
 				    _item_count = Item_Count(),
 				    _item_current = Battle_GetMenuChoiceItem(),
-				    _arrow_x = obj_battle_board.x + obj_battle_board.right - 16,
-				    _arrow_y = obj_battle_board.y,
+				    _arrow_x = global.main_battle_board.x + global.main_battle_board.right - 16,
+				    _arrow_y = global.main_battle_board.y,
 				    _arrow_sine = 5 + (5 * sin(((current_time/1000) * 60) * 0.05)),
 				    _half_height = (10 * (_item_count - 1)) * 0.5; // Adjusted for even distribution
 

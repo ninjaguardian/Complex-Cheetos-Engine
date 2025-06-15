@@ -17,16 +17,16 @@ else if (mode != 0)
 	switch (mode)
 	{
 		case 1:
-			y = (obj_battle_board.y - obj_battle_board.up) + (length / 2);
+			y = (global.main_battle_board.y - global.main_battle_board.up) + (length / 2);
 			break;
 		case 2:
-			y = (obj_battle_board.y + obj_battle_board.down) - (length / 2);
+			y = (global.main_battle_board.y + global.main_battle_board.down) - (length / 2);
 			break;
 		case 3:
-			x = (obj_battle_board.x - obj_battle_board.left) + (length / 2);
+			x = (global.main_battle_board.x - global.main_battle_board.left) + (length / 2);
 			break;
 		case 4:
-			x = (obj_battle_board.x + obj_battle_board.right) - (length / 2);
+			x = (global.main_battle_board.x + global.main_battle_board.right) - (length / 2);
 			break;
 	}
 }

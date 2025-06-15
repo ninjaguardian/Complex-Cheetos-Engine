@@ -73,8 +73,10 @@ function Battle_EndTurn() {
 ///@func Battle_GetTurnInfo(turn_info, [val_default])
 ///@desc Return turn's property base on specified turn info.
 ///@param {Enum.BATTLE_TURN, Real}	turn_info		The turn info to get the value (base on BATTLE_TURN enum or between 0 and 31).
-///@param {Real}					[val_default]	The default value to return in case the specified turn info is not set. (Default: 0)	
+///@param {Any}					[val_default]	The default value to return in case the specified turn info is not set. (Default: 0)	
 ///@return {Real}
+// feather ignore once GM1045
+// Real is part of Any
 function Battle_GetTurnInfo(_turn_info, _val_default = 0) {
 	return obj_battle_controller.__turn_info[$ _turn_info] ?? _val_default;
 }

@@ -119,7 +119,7 @@ if (global.debug)
 				audio_resume_all();
 				with (all)
 					TweenDestroy({target: id});
-				with (obj_battle_board)
+				with (global.main_battle_board)
 				{
 					x = 320;
 					y = 320;

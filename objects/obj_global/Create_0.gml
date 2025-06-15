@@ -70,3 +70,5 @@ with (global)
 }
 debug_fps_lock = false;
 #endregion
+
+global.main_battle_board = noone;

@@ -42,10 +42,10 @@ if (_battle_state == BATTLE_STATE.TURN_PREPARATION || _battle_state == BATTLE_ST
 		_y_offset = sprite_height / 2;
 	
 	#region Board variables
-	var _board_exists = instance_exists(obj_battle_board);
+	var _board_exists = instance_exists(global.main_battle_board);
 	if (_board_exists)
 	{
-		var _board = obj_battle_board,
+		var _board = global.main_battle_board,
 			_board_x = _board.x,
 			_board_y = _board.y,
 			_board_angle = posmod(_board.image_angle, 360),

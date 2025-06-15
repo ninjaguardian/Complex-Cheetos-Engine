@@ -2,7 +2,7 @@
 ///@desc Return whenever the battle board is resizing or not.
 ///@return {Bool}
 function Battle_IsBoardTransforming() {
-	return (instance_exists(obj_battle_board)) ? (TweenExists({target: obj_battle_board})) : false;
+	return (instance_exists(global.main_battle_board)) ? (TweenExists({target: global.main_battle_board})) : false;
 }
 
 ///@func Battle_SetBoardSize(up, down, left, right, [duration], [ease], [delay])
@@ -15,7 +15,7 @@ function Battle_IsBoardTransforming() {
 ///@param {String, Function}	[ease]			The easing string or function for the transformation. (Default: linear)
 ///@param {Real}				[delay]			The delay before transformation start. (Default: 0)
 function Battle_SetBoardSize(_up, _down, _left, _right, _duration = 25, _ease = "", _delay = 0) {
-	with (obj_battle_board)
+	with (global.main_battle_board)
 	{
 		if (_duration <= 0)
 		{ up = _up; down = _up; left = _left; right = _right; }
@@ -28,6 +28,24 @@ function Battle_SetBoardSize(_up, _down, _left, _right, _duration = 25, _ease = 
 				TweenFire(id, _ease, 0, off, _delay, _duration, prop[i][0], prop[i][1]);
 				i++;
 			}
+		}
+	}
+}
+
+///@func Battle_SetBoardAngle(angle, [duration], [ease], [delay])
+///@desc Set the size of the battle board (in pixel of course).
+///@param {Real}				angle			The angle to rotate to. (Default: 0)
+///@param {Real}				[duration]		The duration of the transformation in frame. (Default: 25)
+///@param {String, Function}	[ease]			The easing string or function for the transformation. (Default: linear)
+///@param {Real}				[delay]			The delay before transformation start. (Default: 0)
+function Battle_SetBoardAngle(_angle, _duration = 25, _ease = "", _delay = 0) {
+	with (global.main_battle_board)
+	{
+		if (_duration <= 0)
+		{ image_angle = _angle }
+		else
+		{
+			TweenFire(id, _ease, 0, off, _delay, _duration, "image_angle>", _angle);
 		}
 	}
 }
@@ -45,11 +63,18 @@ function Battle_BoardMaskSet(_use_texture = false, _mask_enable = true) {
 	
 	shader_set_uniform_f(_u_rect, 0, 0, 640, 480);
 	shader_set_uniform_f(_u_maskEnable, _mask_enable);
-	texture_set_stage(_u_mask, surface_get_texture(obj_battle_board.surface_mask));
+	texture_set_stage(_u_mask, surface_get_texture(global.main_battle_board.surface_mask));
 }
 
 ///@func Battle_BoardMaskReset()
 ///@desc Reset all further drawing from specifically within the board mask back to the screen.
 function Battle_BoardMaskReset() {
 	shader_reset();
+}
+
+enum BATTLE_BOARD_TYPES {
+	MAIN,
+	EXCLUDE,
+	OR,
+	AND
 }

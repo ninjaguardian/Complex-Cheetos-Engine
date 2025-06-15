@@ -11,7 +11,7 @@ else
 	var _color = ((type == 1) ? c_aqua : ((type == 2) ? c_orange : c_white)),
 		_color_outline = _color;
 	
-	var _board = obj_battle_board,
+	var _board = global.main_battle_board,
 		_board_x = _board.x,
 		_board_y = _board.y,
 		_board_u = _board_y - _board.up,

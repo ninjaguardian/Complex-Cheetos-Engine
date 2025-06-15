@@ -33,7 +33,9 @@
     {"x":0.0,"y":32.0,},
   ],
   "physicsStartAwake":false,
-  "properties":[],
+  "properties":[
+    {"$GMObjectProperty":"v1","%Name":"_board_type","filters":[],"listItems":[],"multiselect":false,"name":"_board_type","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"BATTLE_BOARD_TYPES.MAIN","varType":0,},
+  ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,

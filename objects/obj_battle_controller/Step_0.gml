@@ -104,8 +104,8 @@ if (__state == BATTLE_STATE.MENU)
         
 		with (obj_battle_soul)
 		{
-			x = lerp(x, (obj_battle_board.x - obj_battle_board.left - 5 + 40), 1/3);
-			y = lerp(y, (obj_battle_board.y - obj_battle_board.up - 5 + 37) + (_enemy * 32), 1/3);
+			x = lerp(x, (global.main_battle_board.x - global.main_battle_board.left - 5 + 40), 1/3);
+			y = lerp(y, (global.main_battle_board.y - global.main_battle_board.up - 5 + 37) + (_enemy * 32), 1/3);
 		}
 		
         if (_input_cancel)
@@ -192,8 +192,8 @@ if (__state == BATTLE_STATE.MENU)
         
 		with (obj_battle_soul)
 		{
-			x = lerp(x, (obj_battle_board.x - obj_battle_board.left - 5 + 40), 1/3);
-			y = lerp(y, (obj_battle_board.y - obj_battle_board.up - 5 + 37) + (_enemy * 32), 1/3);
+			x = lerp(x, (global.main_battle_board.x - global.main_battle_board.left - 5 + 40), 1/3);
+			y = lerp(y, (global.main_battle_board.y - global.main_battle_board.up - 5 + 37) + (_enemy * 32), 1/3);
 		}
 		
         if (_input_cancel)
@@ -224,8 +224,8 @@ if (__state == BATTLE_STATE.MENU)
         
 		with (obj_battle_soul)
 		{
-			x = lerp(x, (obj_battle_board.x - obj_battle_board.left - 5 + 40) + ((_action % 2) * 256), 1/3);
-			y = lerp(y, (obj_battle_board.y - obj_battle_board.up - 5 + 37) + (floor(_action / 2) * 32), 1/3);
+			x = lerp(x, (global.main_battle_board.x - global.main_battle_board.left - 5 + 40) + ((_action % 2) * 256), 1/3);
+			y = lerp(y, (global.main_battle_board.y - global.main_battle_board.up - 5 + 37) + (floor(_action / 2) * 32), 1/3);
 		}
 		
         if (_input_cancel)
@@ -261,8 +261,8 @@ if (__state == BATTLE_STATE.MENU)
 				
 				with (obj_battle_soul)
 				{
-					x = lerp(x, (obj_battle_board.x - obj_battle_board.left - 5 + 40) + ((_slot % 2) * 256), 1/3);
-					y = lerp(y, (obj_battle_board.y - obj_battle_board.up - 5 + 37) + ((floor(_slot / 2) % 2) * 32), 1/3);
+					x = lerp(x, (global.main_battle_board.x - global.main_battle_board.left - 5 + 40) + ((_slot % 2) * 256), 1/3);
+					y = lerp(y, (global.main_battle_board.y - global.main_battle_board.up - 5 + 37) + ((floor(_slot / 2) % 2) * 32), 1/3);
 				}
 				break;
 			
@@ -276,8 +276,8 @@ if (__state == BATTLE_STATE.MENU)
 				
 				with (obj_battle_soul)
 				{
-					x = lerp(x, (obj_battle_board.x - obj_battle_board.left - 5 + 40), 1/3);
-					y = lerp(y, (obj_battle_board.y - obj_battle_board.up - 5 + 37) + ((_slot - other.__menu_choice_item_first) * 32), 1/3);
+					x = lerp(x, (global.main_battle_board.x - global.main_battle_board.left - 5 + 40), 1/3);
+					y = lerp(y, (global.main_battle_board.y - global.main_battle_board.up - 5 + 37) + ((_slot - other.__menu_choice_item_first) * 32), 1/3);
 				}
 				break;
 		}
@@ -313,8 +313,8 @@ if (__state == BATTLE_STATE.MENU)
         
 		with (obj_battle_soul)
 		{
-	        x = lerp(x, (obj_battle_board.x - obj_battle_board.left - 5 + 40), 1/3);
-	        y = lerp(y, (obj_battle_board.y - obj_battle_board.up - 5 + 37 + 32 * other.__menu_choice_mercy), 1/3);
+	        x = lerp(x, (global.main_battle_board.x - global.main_battle_board.left - 5 + 40), 1/3);
+	        y = lerp(y, (global.main_battle_board.y - global.main_battle_board.up - 5 + 37 + 32 * other.__menu_choice_mercy), 1/3);
 		}
 		
         if (_input_cancel)

@@ -45,7 +45,7 @@ switch (turn)
 	case 5: // The famous blaster circle
 		// Accurate Toby's final blaster circle
 		#region
-		Bullet_BlasterCircle(spr_gb, obj_battle_board.x,  obj_battle_board.y, 600, 150, cho, dir, 2, 1, 30, 0, 30);
+		Bullet_BlasterCircle(spr_gb, global.main_battle_board.x,  global.main_battle_board.y, 600, 150, cho, dir, 2, 1, 30, 0, 30);
 		dir += ((len * 10) * cho);
 		if len < 1.7 len += 0.015;
 		alarm[0] = 4;

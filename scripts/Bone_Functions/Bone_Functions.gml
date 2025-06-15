@@ -55,7 +55,7 @@ function Bullet_Bone(_x, _y, _length, _hspeed, _vspeed, _type = 0, _mask = true,
 ///@return {Id.Instance<obj_battle_bullet_bone>}
 function Bullet_BoneTop(_x, _length, _hspeed, _type = 0, _mask = true, _rotate = 0, _auto_destroy = true, _duration = -1)
 {
-	var _y = (obj_battle_board.y - obj_battle_board.up) + (_length / 2),
+	var _y = (global.main_battle_board.y - global.main_battle_board.up) + (_length / 2),
 		_vspeed = 0,
 		_angle = 90,
 		_mode = 0;
@@ -74,7 +74,7 @@ function Bullet_BoneTop(_x, _length, _hspeed, _type = 0, _mask = true, _rotate =
 ///@param {Real}	[duration]			The duration the bone will stay before getting destroyed. (Default: -1)
 ///@return {Id.Instance<obj_battle_bullet_bone>}
 function Bullet_BoneBottom(_x, _length, _hspeed, _type = 0, _mask = true, _rotate = 0, _auto_destroy = true, _duration = -1)
-{	var _y = (obj_battle_board.y + obj_battle_board.down) - (_length / 2),
+{	var _y = (global.main_battle_board.y + global.main_battle_board.down) - (_length / 2),
 		_vspeed = 0,
 		_angle = 90,
 		_mode = 0;
@@ -94,7 +94,7 @@ function Bullet_BoneBottom(_x, _length, _hspeed, _type = 0, _mask = true, _rotat
 ///@return {Id.Instance<obj_battle_bullet_bone>}
 function Bullet_BoneLeft(_y, _length, _vspeed, _type = 0, _mask = true, _rotate = 0, _auto_destroy = true, _duration = -1)
 {
-	var _x = (obj_battle_board.x - obj_battle_board.left) + (_length / 2),
+	var _x = (global.main_battle_board.x - global.main_battle_board.left) + (_length / 2),
 		_hspeed = 0,
 		_angle = 0,
 		_mode = 0;
@@ -114,7 +114,7 @@ function Bullet_BoneLeft(_y, _length, _vspeed, _type = 0, _mask = true, _rotate 
 ///@return {Id.Instance<obj_battle_bullet_bone>}
 function Bullet_BoneRight(_y, _length, _vspeed, _type = 0, _mask = true, _rotate = 0, _auto_destroy = true, _duration = -1)
 {
-	var _x = (obj_battle_board.x + obj_battle_board.right) - (_length / 2),
+	var _x = (global.main_battle_board.x + global.main_battle_board.right) - (_length / 2),
 		_hspeed = 0,
 		_angle = 0,
 		_mode = 0;
@@ -198,7 +198,7 @@ function Bullet_BoneWaveH(_x, _y_gap, _hspeed, _space, _amount, _gap, _amplitude
 function Bullet_BoneGapV(_x_gap, _y, _vspeed, _gap, _type = 0, _mask = true, _auto_destroy = true, _duration = -1)
 {
 	var _bone = [],
-		_board = obj_battle_board,
+		_board = global.main_battle_board,
 		_board_x = _board.x,
 		_board_margin = [_board.left, _board.right],
 		_x = _gap / 2,
@@ -224,7 +224,7 @@ function Bullet_BoneGapV(_x_gap, _y, _vspeed, _gap, _type = 0, _mask = true, _au
 function Bullet_BoneGapH(_x, _y_gap, _hspeed, _gap, _type = 0, _mask = true, _auto_destroy = true, _duration = -1)
 {
 	var _bone = [],
-		_board = obj_battle_board,
+		_board = global.main_battle_board,
 		_board_y = _board.y,
 		_board_margin = [_board.up, _board.down],
 		_y = _gap / 2,
