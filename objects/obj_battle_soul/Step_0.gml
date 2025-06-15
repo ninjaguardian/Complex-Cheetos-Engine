@@ -51,11 +51,6 @@ if (_battle_state == BATTLE_STATE.TURN_PREPARATION || _battle_state == BATTLE_ST
 			_board_angle = posmod(_board.image_angle, 360),
 			_board_dir = _board_angle div 90,
 			_board_thickness = _board.frame_thickness;
-		
-		var _board_top_limit    = (_board_y - _board.up) + _y_offset,
-			_board_bottom_limit = (_board_y + _board.down) - _y_offset,
-			_board_left_limit   = (_board_x - _board.left) + _x_offset,
-			_board_right_limit  = (_board_x + _board.right) - _x_offset;
 	}
 	#endregion
 	
@@ -107,45 +102,17 @@ if (_battle_state == BATTLE_STATE.TURN_PREPARATION || _battle_state == BATTLE_ST
 				_displace_x = lengthdir_x(_x_offset + (_board_thickness / 2), _angle) + (2 * dcos(_board_angle % 90)),
 				_displace_y = lengthdir_y(_y_offset + (_board_thickness / 2), _angle) + (2 * dsin((_board_angle % 90) + 90));
 			
-			var _sin = dsin(_board_angle),
-				_cos = dcos(_board_angle);
-			
-			var _top_left_x = -_board.left,
-				_top_left_y = -_board.up,
-				_top_left_x_rotated = _top_left_x * _cos - _top_left_y * _sin,
-				_top_left_y_rotated = _top_left_x * _sin + _top_left_y * _cos;
-			
-			var _top_right_x = _board.right,
-				_top_right_y = -_board.up,
-				_top_right_x_rotated = _top_right_x * _cos - _top_right_y * _sin,
-				_top_right_y_rotated = _top_right_x * _sin + _top_right_y * _cos;
-			
-			var _bottom_left_x = -_board.left,
-				_bottom_left_y = _board.down,
-				_bottom_left_x_rotated = _bottom_left_x * _cos - _bottom_left_y * _sin,
-				_bottom_left_y_rotated = _bottom_left_x * _sin + _bottom_left_y * _cos;
-			
-			var _bottom_right_x = _board.right,
-				_bottom_right_y = _board.down,
-				_bottom_right_x_rotated = _bottom_right_x * _cos - _bottom_right_y * _sin,
-				_bottom_right_y_rotated = _bottom_right_x * _sin + _bottom_right_y * _cos;
-			
-			var _board_vertices = [
-				_board_x + _top_left_x_rotated, _board_y + _top_left_y_rotated,
-				_board_x + _top_right_x_rotated, _board_y + _top_right_y_rotated,
-				_board_x + _bottom_right_x_rotated, _board_y + _bottom_right_y_rotated,
-				_board_x + _bottom_left_x_rotated, _board_y + _bottom_left_y_rotated
-			];
-			
-			var _ground_top    = !point_in_parallelogram(_r_x, _r_y + _displace_y, _board_vertices),
-				_ground_bottom = !point_in_parallelogram(_r_x, _r_y + _displace_y, _board_vertices),
-				_ground_left   = !point_in_parallelogram(_r_x + _displace_x, _r_y, _board_vertices),
-				_ground_right  = !point_in_parallelogram(_r_x + _displace_x, _r_y, _board_vertices);
+			var margin = max(sprite_width, sprite_height)/2;
 				
-			var _ceil_top    = !point_in_parallelogram(_r_x, _r_y - _displace_y, _board_vertices),
-				_ceil_bottom = !point_in_parallelogram(_r_x, _r_y - _displace_y, _board_vertices),
-				_ceil_left   = !point_in_parallelogram(_r_x - _displace_x, _r_y, _board_vertices),
-				_ceil_right  = !point_in_parallelogram(_r_x - _displace_x, _r_y, _board_vertices);
+			var _ground_top = !scr_point_in_union(_r_x, _r_y + _displace_y, margin),
+				_ground_bottom = !scr_point_in_union(_r_x, _r_y + _displace_y, margin),
+				_ground_left   = !scr_point_in_union(_r_x + _displace_x, _r_y, margin),
+				_ground_right  = !scr_point_in_union(_r_x + _displace_x, _r_y, margin);
+				
+			var _ceil_top    = !scr_point_in_union(_r_x, _r_y - _displace_y, margin),
+				_ceil_bottom = !scr_point_in_union(_r_x, _r_y - _displace_y, margin),
+				_ceil_left   = !scr_point_in_union(_r_x - _displace_x, _r_y, margin),
+				_ceil_right  = !scr_point_in_union(_r_x - _displace_x, _r_y, margin);
 			#endregion
 			
 			#region Collision processing
@@ -295,18 +262,10 @@ if (_battle_state == BATTLE_STATE.TURN_PREPARATION || _battle_state == BATTLE_ST
 	}
 	#region Soul clamping (aka the soul stay inside the board)
 	// Collision check for the main bullet board
-	if (_board_exists)
-	{
-		var _dist = point_distance(_board_x, _board_y, x, y),
-			_dir = point_direction(_board_x, _board_y, x, y) - _board_angle,
-			_r_x = clamp(lengthdir_x(_dist, _dir) + _board_x, _board_left_limit, _board_right_limit),
-			_r_y = clamp(lengthdir_y(_dist, _dir) + _board_y, _board_top_limit, _board_bottom_limit);
-
-		_dist = point_distance(_board_x, _board_y, _r_x, _r_y);
-		_dir = point_direction(_board_x, _board_y, _r_x, _r_y) + _board_angle;
-		// Clamp the soul inside the rectangle board
-		x = lengthdir_x(_dist, _dir) + _board_x;
-		y = lengthdir_y(_dist, _dir) + _board_y;
+	if (_board_exists) {
+	    var arr = scr_clamp_to_union(x, y, global.main_battle_board.x, global.main_battle_board.y, max(sprite_width, sprite_height)/2);
+	    x = arr[0];
+	    y = arr[1];
 	}
 	#endregion
 	

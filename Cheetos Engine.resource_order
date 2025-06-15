@@ -588,6 +588,7 @@
     {"name":"lexicon_text","order":7,"path":"scripts/lexicon_text/lexicon_text.yy",},
     {"name":"Platform_Function","order":7,"path":"scripts/Platform_Function/Platform_Function.yy",},
     {"name":"Player_Functions","order":8,"path":"scripts/Player_Functions/Player_Functions.yy",},
+    {"name":"point_in_board","order":4,"path":"scripts/point_in_board/point_in_board.yy",},
     {"name":"Room_Dictionary","order":1,"path":"scripts/Room_Dictionary/Room_Dictionary.yy",},
     {"name":"scr_get_rotated_corners","order":3,"path":"scripts/scr_get_rotated_corners/scr_get_rotated_corners.yy",},
     {"name":"scribble_anim_cycle","order":1,"path":"scripts/scribble_anim_cycle/scribble_anim_cycle.yy",},

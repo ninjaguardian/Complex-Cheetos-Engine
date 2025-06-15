@@ -133,13 +133,12 @@ surface_set_target(surface_mask);
             //var left = up; // careful: your vars: up is top offset, left is left offset, etc.
             // Actually: corners: (x - left, y - up), (x + right, y - up), (x + right, y + down), (x - left, y + down).
             var cx = x, cy = y;
-            var a = -image_angle;
+            var a = image_angle;
 
             // Helper inline: rotate a point (px,py) around (cx,cy) by angle a:
             // Using your __point_xy approach:
-            var dx, dy, rx, ry;
             // Top-left
-            dx = x - left - cx; dy = y - up - cy; // but x - left - cx == -left, same
+            var dx = x - left - cx, dy = y - up - cy;   // but x - left - cx == -left, same
             // but simpler: call a small function or inline lengthdir:
             // However, since lengthdir expects length and angle, use:
             // rotated_x = cx + lengthdir_x(px - cx, a) - lengthdir_y(py - cy, a); etc.

@@ -20,5 +20,5 @@ shader_set(shd_mask_outline);
 	shader_set_uniform_f(shd_mask_outline_outlinecolor,
 	    1,1,1,1);
 	// Draw full-screen quad:
-	draw_rectangle(0, -1, 640, 480-1, false);
+	draw_rectangle(1, 1, 640-2, 480-1, false);
 shader_reset();

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"point_in_board",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"point_in_board",
+  "parent":{
+    "name":"Board",
+    "path":"folders/Engine/Battle/Board.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
