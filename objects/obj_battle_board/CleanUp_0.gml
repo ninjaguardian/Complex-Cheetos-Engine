@@ -1,3 +1,6 @@
+if (_board_type != BATTLE_BOARD_TYPES.MAIN)
+	return
+
 //if (surface_exists(surface_clip))
 //	surface_free(surface_clip);
 

@@ -10,7 +10,7 @@ switch (turn)
 			instance_create_depth(320, 320, 0, obj_battle_board, {_board_type : BATTLE_BOARD_TYPES.OR});
 		//if (timer == 30)
 		//	Battle_SetBoardAngle(45);
-		if (timer == 100)
+		if (timer == 500)
 			Battle_EndTurn();
 		break;
 	//case 0: // Intro attack

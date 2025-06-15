@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_get_rotated_corners",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_get_rotated_corners",
+  "parent":{
+    "name":"Board",
+    "path":"folders/Engine/Battle/Board.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

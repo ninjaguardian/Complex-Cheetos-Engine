@@ -3,7 +3,6 @@ depth = DEPTH_BATTLE.BOARD;
 image_alpha = 1;
 
 //surface_clip = -1;
-surface_mask = -1;
 
 x = BATTLE_BOARD.X;
 y = BATTLE_BOARD.Y;
@@ -12,8 +11,6 @@ up = BATTLE_BOARD.UP;
 down = BATTLE_BOARD.DOWN;
 left = BATTLE_BOARD.LEFT;
 right = BATTLE_BOARD.RIGHT;
-
-frame_thickness = 5;
 
 bg_alpha = 1;
 bg_color = c_black;
@@ -32,7 +29,6 @@ __point_xy = function(_point_x, _point_y)
 #endregion
 
 #region	Private Variables
-__surface_frame = -1;
 
 __frame_x = [0, 0, 0, 0];
 __frame_y = [0, 0, 0, 0];
@@ -50,4 +46,13 @@ __point_y = 0;
 
 if (_board_type == BATTLE_BOARD_TYPES.MAIN) {
 	global.main_battle_board = self;
+	surface_mask = -1;
+	__surface_frame = -1;
+	
+	shd_mask_clip_mask = shader_get_uniform(shd_mask_clip, "u_mask");
+	shd_mask_clip_bgcolor = shader_get_uniform(shd_mask_clip  , "u_bgcolor");
+	shd_mask_outline_texel = shader_get_uniform(shd_mask_outline, "u_texelSize");
+	shd_mask_outline_outlinecolor = shader_get_uniform(shd_mask_outline, "u_outlinecolor");
+
+	frame_thickness = 5.0;
 }

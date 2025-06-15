@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"shd_mask_outline",
+  "name":"shd_mask_outline",
+  "parent":{
+    "name":"Shaders",
+    "path":"folders/Engine/Effects/Shaders.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}
