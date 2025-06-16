@@ -54,6 +54,4 @@ if (_board_type == BATTLE_BOARD_TYPES.MAIN) {
 	shd_mask_outline_outlinecolor = shader_get_uniform(shd_mask_outline, "u_outlinecolor");
 
 	frame_thickness = 5.0;
-	
-	prev_angle = image_angle;
 }

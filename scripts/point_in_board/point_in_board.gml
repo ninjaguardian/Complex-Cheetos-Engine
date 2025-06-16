@@ -131,3 +131,86 @@ function scr_clamp_to_union(nx, ny, prev_x, prev_y, margin) {
 	}
 	return [best_x, best_y];
 }
+
+
+// feather disable GM1045
+
+/**
+ * Convert world position (wx,wy) into local coords (lx,ly) for the given board instance
+ * @param {Id.Instance} inst Board instance
+ * @param {real} wx World x
+ * @param {real} wy World y
+ * @returns {array<real>} Local coords
+ */
+function scr_world_to_local(inst, wx, wy) {
+	var bx = inst.x;
+	var by = inst.y;
+	var a = inst.image_angle;
+	// Translate
+	var dx = wx - bx;
+	var dy = wy - by;
+	// Inverse rotate by a: 
+	var ca = dcos(a), sa = dsin(a);
+	// local_x = dx*cos(a) + dy*sin(a)
+	// local_y = -dx*sin(a) + dy*cos(a)
+	var lx = dx * ca + dy * sa;
+	var ly = -dx * sa + dy * ca;
+	return [lx, ly];
+}
+
+/**
+ * Convert local position (lx,ly) into world coords (wx,wy) for the given board instance
+ * @param {Id.Instance} inst Board instance
+ * @param {real} lx Local x
+ * @param {real} ly Local y
+ * @returns {array<real>} World coords
+ */
+function scr_local_to_world(inst, lx, ly) {
+	var bx = inst.x;
+	var by = inst.y;
+	var a = inst.image_angle;
+	var ca = dcos(a), sa = dsin(a);
+	var wx = bx + lx * ca - ly * sa;
+	var wy = by + lx * sa + ly * ca;
+	// feather ignore once GM1045
+	return [wx, wy];
+}
+
+// feather enable GM1045
+// feather ignore once GM1062
+
+/// @desc Returns the board instance (MAIN or OR) whose top edge is directly under (px,py), if within horizontal bounds. If multiple overlap, returns the one with smallest vertical gap (ly distance to its down-edge). Else returns noone.
+/// @param {real} px X coord
+/// @param {real} py y coord
+/// @param {real} margin The board margin.
+/// @returns {id.instance<obj_battle_board>} Board instance
+function scr_find_board_under(px, py, margin) {
+    var best = noone;
+    var bestGap = 1000000000;
+    with (obj_battle_board) {
+        if (_board_type != BATTLE_BOARD_TYPES.MAIN && _board_type != BATTLE_BOARD_TYPES.OR) continue;
+        var arr = scr_world_to_local(id, px, py);
+        var lx = arr[0], ly = arr[1];
+        // Check horizontal alignment: lx between -left and right
+        if (lx >= -left && lx <= right) {
+            var gap = ly + margin + up; 
+            // If gap >= 0, soul’s feet are below top edge (i.e. penetrating or on), treat as on-board.
+            // If gap < 0, soul is above board; vertical distance = -gap.
+            if (gap >= 0) {
+                // soul is at or below top: treat as standing (penetration), gap=0
+                gap = 0;
+            } else {
+                gap = -gap;
+            }
+            // Only consider if the soul is not far below bottom: check ly - soul_half_h <= down
+            if (ly - margin <= down) {
+                // Candidate. We want smallest gap.
+                if (gap < bestGap) {
+                    bestGap = gap;
+                    best = id;
+                }
+            }
+        }
+    }
+    return best;
+}
