@@ -3,7 +3,7 @@ with (ui_info)
 {
 	if (image_alpha <= 0)
 		exit;
-	
+		
 	var _color_final = image_blend, _alpha_final = image_alpha;
 	
 	var _kr_enable = global.kr_enable;
@@ -11,7 +11,7 @@ with (ui_info)
 	var _bar_hp_max = hp_max * bar_scale,
 		_bar_hp = (hp / hp_max) * _bar_hp_max,
 		_bar_kr = (kr / hp_max) * _bar_hp_max;
-	
+		
 	// Name - LV Font
 	draw_set_font(font_mars_needs_cunnilingus);
 	
@@ -52,11 +52,12 @@ with (ui_info)
 	}
 	
 	// HP and Max HP bars
+	var _surf_bar_hp_max = round(_bar_hp_max);
 	if (!surface_exists(surf_hp_mask)) {
-		surf_hp_mask = surface_create(_bar_hp_max, 20);
-	} else if (surface_get_width(surf_hp_mask) != _bar_hp_max) {
+		surf_hp_mask = surface_create(_surf_bar_hp_max, 20);
+	} else if (surface_get_width(surf_hp_mask) != _surf_bar_hp_max) {
 		surface_free(surf_hp_mask);
-		surf_hp_mask = surface_create(_bar_hp_max, 20);
+		surf_hp_mask = surface_create(_surf_bar_hp_max, 20);
 	}
 	surface_set_target(surf_hp_mask);
 	draw_clear_alpha(c_black, 0);

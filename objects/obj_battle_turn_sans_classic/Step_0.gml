@@ -67,8 +67,8 @@ switch (turn)
 		{
 			var _i = 0; repeat (8)
 			{
-				Bullet_BoneGapH(120 - (_i * 120), 355, 3, 20);
-				Bullet_BoneGapH(520 + (_i++ * 120), 355, -3, 20);
+				Bullet_BoneGapH(120 - (_i * 120), 355, 3, 20, irandom_range(0,2));
+				Bullet_BoneGapH(520 + (_i++ * 120), 355, -3, 20, irandom_range(0,2));
 			}
 		}
 		else if (timer == 450)

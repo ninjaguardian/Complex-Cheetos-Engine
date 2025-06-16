@@ -43,3 +43,6 @@ part_type_life(__after_effect_type, 1/0.035, 1/0.035);
 part_type_size(__after_effect_type, 1, 1, 0.15, 0);
 part_type_alpha2(__after_effect_type, 1, 0);
 
+hp_above = false;
+hp_above_alpha_change = 0.05;
+_hp_above_alpha = 0;
