@@ -868,6 +868,7 @@
     {"name":"spr_hint_border","order":5,"path":"sprites/spr_hint_border/spr_hint_border.yy",},
     {"name":"spr_hint_half_size","order":7,"path":"sprites/spr_hint_half_size/spr_hint_half_size.yy",},
     {"name":"spr_hint_landmark","order":3,"path":"sprites/spr_hint_landmark/spr_hint_landmark.yy",},
+    {"name":"spr_pixel_center","order":5,"path":"sprites/spr_pixel_center/spr_pixel_center.yy",},
     {"name":"spr_pixel","order":1,"path":"sprites/spr_pixel/spr_pixel.yy",},
     {"name":"spr_quitting","order":2,"path":"sprites/spr_quitting/spr_quitting.yy",},
     {"name":"spr_sans_body","order":3,"path":"sprites/spr_sans_body/spr_sans_body.yy",},

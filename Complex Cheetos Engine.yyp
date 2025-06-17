@@ -1038,6 +1038,7 @@
     {"id":{"name":"spr_hint_half_size","path":"sprites/spr_hint_half_size/spr_hint_half_size.yy",},},
     {"id":{"name":"spr_hint_landmark","path":"sprites/spr_hint_landmark/spr_hint_landmark.yy",},},
     {"id":{"name":"spr_logo","path":"sprites/spr_logo/spr_logo.yy",},},
+    {"id":{"name":"spr_pixel_center","path":"sprites/spr_pixel_center/spr_pixel_center.yy",},},
     {"id":{"name":"spr_pixel","path":"sprites/spr_pixel/spr_pixel.yy",},},
     {"id":{"name":"spr_quitting","path":"sprites/spr_quitting/spr_quitting.yy",},},
     {"id":{"name":"spr_sans_body","path":"sprites/spr_sans_body/spr_sans_body.yy",},},
