@@ -121,52 +121,63 @@ if (!surface_exists(surface_mask))
 
 surface_set_target(surface_mask);
 	draw_clear_alpha(c_black, 0);
-	// Cut the shape(s) out of the mask-surface
-    // For each instance of obj_battle_board with type MAIN or OR:
-    with (obj_battle_board) {
-        if (_board_type == BATTLE_BOARD_TYPES.MAIN || _board_type  == BATTLE_BOARD_TYPES.OR) {
-            // Compute this instance’s four corners in screen coordinates.
-            // You can replicate your __point_xy logic here (or factor into a script):
-            // Let center = (x, y), angle = image_angle, sides = up/down/left/right.
+	
+	for (var i = 0; i < array_length(global.battle_boards); i++) {
+	    var instID = global.battle_boards[i];
+	    if (instance_exists(instID)) {
+	        with (instID) {
+				switch (_board_type) {
+					#region MAIN/OR/EXCLUDE
+					case BATTLE_BOARD_TYPES.EXCLUDE:
+						gpu_set_blendmode(bm_subtract);
+					case BATTLE_BOARD_TYPES.MAIN:
+					case BATTLE_BOARD_TYPES.OR:
+			            // Compute this instance’s four corners in screen coordinates.
+			            // You can replicate your __point_xy logic here (or factor into a script):
+			            // Let center = (x, y), angle = image_angle, sides = up/down/left/right.
 
-            // Example: compute the four corners of the axis-aligned rectangle before rotation:
-            //var left = up; // careful: your vars: up is top offset, left is left offset, etc.
-            // Actually: corners: (x - left, y - up), (x + right, y - up), (x + right, y + down), (x - left, y + down).
-            var cx = x, cy = y;
-            var a = image_angle;
+			            // Example: compute the four corners of the axis-aligned rectangle before rotation:
+			            //var left = up; // careful: your vars: up is top offset, left is left offset, etc.
+			            // Actually: corners: (x - left, y - up), (x + right, y - up), (x + right, y + down), (x - left, y + down).
+			            var cx = x, cy = y;
+			            var a = image_angle;
 
-            // Helper inline: rotate a point (px,py) around (cx,cy) by angle a:
-            // Using your __point_xy approach:
-            // Top-left
-            var dx = x - left - cx, dy = y - up - cy;   // but x - left - cx == -left, same
-            // but simpler: call a small function or inline lengthdir:
-            // However, since lengthdir expects length and angle, use:
-            // rotated_x = cx + lengthdir_x(px - cx, a) - lengthdir_y(py - cy, a); etc.
-            // To avoid confusion, factor your __point_xy into a script that returns (rx,ry).
-            // Assume you have a script: scr_rotate_point(px, py, cx, cy, a) returning [rx, ry].
-            var corns = scr_get_rotated_corners(left, right, up, down, cx, cy, a);
-            // corns is an array of 4 points: [(x1,y1), (x2,y2), ...] in order.
+			            // Helper inline: rotate a point (px,py) around (cx,cy) by angle a:
+			            // Using your __point_xy approach:
+			            // Top-left
+			            var dx = x - left - cx, dy = y - up - cy;   // but x - left - cx == -left, same
+			            // but simpler: call a small function or inline lengthdir:
+			            // However, since lengthdir expects length and angle, use:
+			            // rotated_x = cx + lengthdir_x(px - cx, a) - lengthdir_y(py - cy, a); etc.
+			            // To avoid confusion, factor your __point_xy into a script that returns (rx,ry).
+			            // Assume you have a script: scr_rotate_point(px, py, cx, cy, a) returning [rx, ry].
+			            var corns = scr_get_rotated_corners(left, right, up, down, cx, cy, a);
+			            // corns is an array of 4 points: [(x1,y1), (x2,y2), ...] in order.
 
-            // Now draw the polygon white. GML has no direct polygon fill primitive,
-            // but you can draw it via draw_primitive_begin/primitives or by using draw_vertex for a triangle fan.
-            draw_set_alpha(1);
-			draw_set_color(c_white);
-			gpu_set_blendmode(bm_normal);
-            // For simpler: use draw_primitive:
-            draw_primitive_begin(pr_trianglefan);
-	            // Center for fan: average of corners (optional)
-	            var avgx = (corns[0].x + corns[1].x + corns[2].x + corns[3].x) / 4;
-	            var avgy = (corns[0].y + corns[1].y + corns[2].y + corns[3].y) / 4;
+			            // Now draw the polygon white. GML has no direct polygon fill primitive,
+			            // but you can draw it via draw_primitive_begin/primitives or by using draw_vertex for a triangle fan.
+			            draw_set_alpha(1);
+						draw_set_color(c_white);
+			            // For simpler: use draw_primitive:
+			            draw_primitive_begin(pr_trianglefan);
+				            // Center for fan: average of corners (optional)
+				            var avgx = (corns[0].x + corns[1].x + corns[2].x + corns[3].x) / 4;
+				            var avgy = (corns[0].y + corns[1].y + corns[2].y + corns[3].y) / 4;
 				
-	            draw_vertex(avgx, avgy);
-	            for (var i = 0; i < 4; i++) {
-	                draw_vertex(corns[i].x, corns[i].y);
-	            }
-	            // close back to first corner
-	            draw_vertex(corns[0].x, corns[0].y);
-            draw_primitive_end();
-        }
-    }
+				            draw_vertex(avgx, avgy);
+				            for (var _i = 0; _i < 4; _i++) {
+				                draw_vertex(corns[_i].x, corns[_i].y);
+				            }
+				            // close back to first corner
+				            draw_vertex(corns[0].x, corns[0].y);
+			            draw_primitive_end();
+						gpu_set_blendmode(bm_normal);
+						break;
+					#endregion
+				}
+			}
+		}
+	}
 surface_reset_target();
 
 #endregion

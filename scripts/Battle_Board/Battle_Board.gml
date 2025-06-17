@@ -84,6 +84,31 @@ function Battle_BoardMaskReset() {
 	shader_reset();
 }
 
+/**
+ * Adds another battle board.
+ * @param {real} x The x position of the board.
+ * @param {real} y The y position of the board.
+ * @param {any*} type The BATTLE_BOARD_TYPES of the board.
+ * @param {real} [up] How far should it extend up? (Default: 0)
+ * @param {real} [down] How far should it extend down? (Default: 0)
+ * @param {real} [left] How far should it extend left? (Default: 0)
+ * @param {real} [right] How far should it extend right? (Default: 0)
+ * @param {real} [depth] Instance depth. (Default: 0)
+ * @returns {id.instance<obj_battle_board>} The board instance.
+ */
+function Battle_AddNewBoard(_x, _y, _type, _up = 0, _down = 0, _left = 0, _right = 0, _depth = 0) {
+	var _inst = instance_create_depth(_x, _y, _depth, obj_battle_board, {_board_type : _type});
+	with (_inst) {
+		up = _up;
+		down = _down;
+		left = _left;
+		right = _right;
+		x = _x;
+		y = _y;
+	}
+	return _inst;
+}
+
 enum BATTLE_BOARD_TYPES {
 	MAIN,
 	EXCLUDE,

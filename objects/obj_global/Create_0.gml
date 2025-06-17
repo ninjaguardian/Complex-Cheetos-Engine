@@ -72,3 +72,4 @@ debug_fps_lock = false;
 #endregion
 
 global.main_battle_board = noone;
+global.battle_boards = [];

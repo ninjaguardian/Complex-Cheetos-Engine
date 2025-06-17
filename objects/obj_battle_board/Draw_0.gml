@@ -1,6 +1,10 @@
 if (_board_type != BATTLE_BOARD_TYPES.MAIN) {
 	return
 }
+if (global.debug) {
+	draw_surface(surface_mask, 0, 0);
+	return;
+}
 
 shader_set(shd_mask_clip);
 	// Pass uniforms:

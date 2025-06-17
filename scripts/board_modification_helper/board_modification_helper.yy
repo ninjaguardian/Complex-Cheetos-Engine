@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"point_in_board",
+  "%Name":"board_modification_helper",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"point_in_board",
+  "name":"board_modification_helper",
   "parent":{
     "name":"Board",
     "path":"folders/Engine/Battle/Board.yy",

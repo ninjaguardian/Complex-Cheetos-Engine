@@ -55,3 +55,5 @@ if (_board_type == BATTLE_BOARD_TYPES.MAIN) {
 
 	frame_thickness = 5.0;
 }
+
+array_push(global.battle_boards, id);
