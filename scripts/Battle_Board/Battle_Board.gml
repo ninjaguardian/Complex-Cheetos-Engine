@@ -75,7 +75,7 @@ function Battle_BoardMaskSet(_use_texture = false, _mask_enable = true, _inst = 
 	
 	shader_set_uniform_f(_u_rect, 0, 0, 640, 480);
 	shader_set_uniform_f(_u_maskEnable, _mask_enable);
-	texture_set_stage(_u_mask, surface_get_texture(_inst.surface_mask));
+	texture_set_stage(_u_mask, surface_get_texture(_inst._surface_mask));
 }
 
 ///@func Battle_BoardMaskReset()
