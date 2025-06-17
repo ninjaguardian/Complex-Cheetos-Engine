@@ -67,6 +67,10 @@ with (global)
 	__fps_average = __fps_real;
 	__fps_min = __fps_real;
 	__fps_max = __fps_real;
+	
+	debug_show_board = 0;
+	debug_show_fail_soul = 0;
+	__failed_soul_pos = [];
 }
 debug_fps_lock = false;
 #endregion

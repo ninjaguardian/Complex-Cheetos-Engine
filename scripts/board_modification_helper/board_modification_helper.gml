@@ -35,7 +35,7 @@ function scr_get_rotated_corners(left, right, up, down, cx, cy, a) {
 	return [c1, c2, c3, c4];
 }
 
-/// @desc Test if a world point (px,py) is inside a given board instance’s rotated rectangle.
+/// @desc Test if a world point (px,py) is inside a given board instance's rotated rectangle.
 /// @param {Id.Instance} _inst The board instance.
 /// @param {Real} px The x in the point.
 /// @param {Real} py The y in the point.
@@ -78,112 +78,169 @@ function scr_point_in_board(_inst, px, py, margin) {
 }
 
 /**
- * Function Returns true if (px,py) lies inside at least one obj_battle_board with type MAIN or OR.
+ * Function Returns true if (px,py) lies in the battle box.
  * @param {real} px The x in the point.
  * @param {real} py The y in the point.
  * @param {real} margin The board margin.
- * @returns {bool} Does (px,py) lie inside at least one obj_battle_board with type MAIN or OR?
+ * @param {Id.Instance} [exclude] Ignore a certain battle box. (Default: noone)
+ * @returns {bool} Does (px,py) lie in the battle box?
  */
-function scr_point_in_union(px, py, margin) {
+function scr_point_in_battle_box(px, py, margin, exclude=noone) {
+	var in_board = false;
 	for (var i = 0; i < array_length(global.battle_boards); i++) {
 	    var instID = global.battle_boards[i];
+		if (exclude == instID) continue; 
 	    if (instance_exists(instID)) {
 	        with (instID) {
-			    if (_board_type == BATTLE_BOARD_TYPES.MAIN || _board_type == BATTLE_BOARD_TYPES.OR) {
-			        if (scr_point_in_board(id, px, py, margin)) {
-			            // found one
-			            return true;
-			        }
-			    }
+				switch (_board_type) {
+					case BATTLE_BOARD_TYPES.MAIN:
+					case BATTLE_BOARD_TYPES.OR:
+				        if (!in_board && scr_point_in_board(id, px, py, margin))
+							in_board = true;
+						break;
+					case BATTLE_BOARD_TYPES.EXCLUDE:
+				        if (in_board && scr_point_in_board(id, px, py, -margin+1)) // TODO: test value
+							in_board = false;
+						break;
+					case BATTLE_BOARD_TYPES.AND:
+				        if (in_board && !scr_point_in_board(id, px, py, margin)) // TODO: change margin
+							in_board = false;
+						break;
+				}
 	        }
 	    }
 	}
-	// none found
-	return false;
+	return in_board;
+}
+
+
+// feather ignore once GM1062
+
+/**
+ * Projects world point (nx,ny) onto the nearest point on the boundary of inst's shrunk rectangle.
+ * @param {id.instance<obj_battle_board>} inst       The board instance.
+ * @param {real} nx       New X.
+ * @param {real} ny       New Y.
+ * @param {real} margin   Shrink margin.
+ * @returns {array<real, bool>} [wx, wy, inside]:
+ *   wx,wy = world coordinates of the closest point on the rectangle edge.
+ *   inside = bool: true if (nx,ny) was inside the shrunk rect, or false otherwise.
+ * If the projection falls exactly inside the shrunk rect interior, we still clamp to nearest edge
+ * but inside=true. If (nx,ny) is outside, inside=false.
+ */
+function scr_project_to_rect_edge(inst, nx, ny, margin) {
+    var bx = inst.x, by = inst.y;
+    var a  = inst.image_angle;
+    var left2  = inst.left  - margin; if (left2 < 0) left2 = 0;
+    var right2 = inst.right - margin; if (right2 < 0) right2 = 0;
+    var up2    = inst.up    - margin; if (up2 < 0) up2 = 0;
+    var down2  = inst.down  - margin; if (down2 < 0) down2 = 0;
+
+    var arrL = scr_world_to_local(inst, nx, ny);
+    var lx = arrL[0], ly = arrL[1];
+
+    var inside = (lx >= -left2 && lx <= right2 && ly >= -up2 && ly <= down2);
+
+    // Compute clamp to edge: nearest x-edge or y-edge
+    // Compute distances to edges:
+    var dist_left   = lx + left2;
+    var dist_right  = right2 - lx;
+    var dist_top    = ly + up2;
+    var dist_bottom = down2 - ly;
+
+    // If outside, some of these may be negative. Still pick the smallest absolute distance?
+    // To project onto edge, clamp lx, ly within [-left2, right2] and [-up2, down2].
+    var clx = lx, cly = ly;
+    // Clamp x:
+    if (lx < -left2) clx = -left2;
+    else if (lx > right2) clx = right2;
+    // Clamp y:
+    if (ly < -up2) cly = -up2;
+    else if (ly > down2) cly = down2;
+
+    // Now (clx,cly) lies on or inside the shrunk rect.
+    if (inside) {
+        // Find minimal distance to each edge:
+        var dL = abs(dist_left);
+        var dR = abs(dist_right);
+        var dT = abs(dist_top);
+        var dB = abs(dist_bottom);
+        var dmin = dL; var edge = 0;
+        if (dR < dmin) { dmin = dR; edge = 1; }
+        if (dT < dmin) { dmin = dT; edge = 2; }
+        if (dB < dmin) { dmin = dB; edge = 3; }
+        switch(edge) {
+            case 0: clx = -left2; break;
+            case 1: clx = right2; break;
+            case 2: cly = -up2;   break;
+            case 3: cly = down2;  break;
+        }
+    }
+    // If outside, (clx,cly) is already the projection onto the rectangle boundary (or corner).
+
+    var arrW = scr_local_to_world(inst, clx, cly);
+    return [arrW[0], arrW[1], inside];
 }
 
 /**
- * If (nx,ny) is inside union, returns [nx, ny]. Else returns nearest point on union boundary or [prev_x, prev_y] if none.
+ * If (nx,ny) is inside the battle box (MAIN+OR minus EXCLUDE), returns [nx, ny].
+ * Else returns nearest point on the boundary of that region, or [prev_x, prev_y] if none.
  * @param {real} nx New X.
  * @param {real} ny New Y.
  * @param {real} prev_x Previous X.
  * @param {real} prev_y Previous Y.
  * @param {real} margin The board margin.
- * @returns {array<Real>} If (nx,ny) is inside union, returns [nx, ny]. Else returns nearest point on union boundary or [prev_x, prev_y] if none.
+ * @param {real} fallback_x If prev_x is outside the board, go here.
+ * @param {real} fallback_y If prev_y is outside the board, go here.
+ * @returns {array<Real>} If (nx,ny) is inside the battle box, returns [nx, ny]. Else nearest point on boundary, or [prev_x, prev_y].
  */
-function scr_clamp_to_union(nx, ny, prev_x, prev_y, margin) {
-	// If inside union of shrunk boards, keep:
-	if (scr_point_in_union(nx, ny, margin)) {
-	    return [nx, ny];
-	}
-
-	var best_x = prev_x;
-	var best_y = prev_y;
-	var best_dist2 = sqr(nx - prev_x) + sqr(ny - prev_y);
-
-	// Loop boards
-	for (var i = 0; i < array_length(global.battle_boards); i++) {
-	    var instID = global.battle_boards[i];
-	    if (instance_exists(instID)) {
-	        with (instID) {
-				#region
-			    if (!(_board_type == BATTLE_BOARD_TYPES.MAIN || _board_type == BATTLE_BOARD_TYPES.OR)) continue;
-
-			    var bx = x, by = y, a = image_angle;
-			    // Shrink sides
-			    var left2 = left - margin; if (left2 < 0) left2 = 0;
-			    var right2 = right - margin; if (right2 < 0) right2 = 0;
-			    var up2 = up - margin; if (up2 < 0) up2 = 0;
-			    var down2 = down - margin; if (down2 < 0) down2 = 0;
-
-			    // Inverse rotate new point into local:
-			    var dx = nx - bx, dy = ny - by;
-			    var ca = dcos(a), sa = dsin(a);
-			    var lx = dx * ca + dy * sa;
-			    var ly = -dx * sa + dy * ca;
-
-			    // Clamp local to shrunk rect:
-			    var clx = lx, cly = ly;
-			    var on_edge = false;
-			    if (lx < -left2) { clx = -left2; on_edge = true; }
-			    else if (lx > right2) { clx = right2; on_edge = true; }
-			    if (ly < -up2) { cly = -up2; on_edge = true; }
-			    else if (ly > down2) { cly = down2; on_edge = true; }
-			    if (!on_edge) continue; // projection falls inside shrunk rect interior: either nx,ny was inside this board, or no useful edge
-
-			    // Back to world:
-			    var wx = bx + clx * ca - cly * sa;
-			    var wy = by + clx * sa + cly * ca;
-
-			    // Ensure candidate not inside another shrunk board:
-			    var inside_other = false;
-				for (var _i = 0; _i < array_length(global.battle_boards); _i++) {
-				    var _instID = global.battle_boards[_i];
-				    if (instance_exists(_instID)) {
-				        with (_instID) {
-					        if (id == other.id) continue;
-					        if (_board_type == BATTLE_BOARD_TYPES.MAIN || _board_type == BATTLE_BOARD_TYPES.OR) {
-					            if (scr_point_in_board(id, wx, wy, margin)) {
-					                inside_other = true;
-					                break;
-					            }
-					        }
-				        }
-				    }
-				}
-			    if (inside_other) continue;
-
-			    var d2 = sqr(nx - wx) + sqr(ny - wy);
-			    if (d2 < best_dist2) {
-			        best_dist2 = d2;
-			        best_x = wx;
-			        best_y = wy;
-			    }
-				#endregion
-		    }
+function scr_clamp_to_battle_box(nx, ny, prev_x, prev_y, margin, fallback_x, fallback_y) {
+    if (scr_point_in_battle_box(nx, ny, margin)) {
+        return [nx, ny];
+    }
+    var best_x = prev_x, best_y = prev_y;
+	if (!scr_point_in_battle_box(best_x, best_y, margin)) {
+		if (global.debug_show_fail_soul) {
+			array_push(global.__failed_soul_pos, [best_x, best_y]);
 		}
+		best_x = fallback_x; best_y = fallback_y;
 	}
-	return [best_x, best_y];
+    var best_dist2 = 1000000000;
+
+    for (var i = 0; i < array_length(global.battle_boards); i++) {
+        var instID = global.battle_boards[i];
+        if (!instance_exists(instID)) continue;
+
+		with (instID) {
+	        // Project onto this board's shrunk rect edge:
+	        var proj = scr_project_to_rect_edge(id, nx, ny, _board_type == BATTLE_BOARD_TYPES.EXCLUDE ? -margin : margin);
+	        var wx = proj[0], wy = proj[1], inside = proj[2];
+
+			var isMainOrOr = (_board_type == BATTLE_BOARD_TYPES.MAIN || _board_type == BATTLE_BOARD_TYPES.OR);
+			var isExclude  = (_board_type == BATTLE_BOARD_TYPES.EXCLUDE);
+			var wantClamp  = (isMainOrOr && inside = false)
+			               || (isExclude && inside = true);
+			if (!wantClamp) {
+			    continue;
+			}
+			// Now verify candidate lies in allowed area:
+			if (!scr_point_in_battle_box(wx, wy, margin)) {
+				if (global.debug_show_fail_soul) {
+					array_push(global.__failed_soul_pos, [wx, wy]);
+				}
+			    continue;
+			}
+
+	        // Accept candidate if closer
+	        var d2 = sqr(nx - wx) + sqr(ny - wy);
+	        if (d2 < best_dist2) {
+	            best_dist2 = d2;
+	            best_x = wx;
+	            best_y = wy;
+	        }
+		}
+    }
+    return [best_x, best_y];
 }
 
 
@@ -238,7 +295,7 @@ function scr_local_to_world(inst, lx, ly) {
 /// @param {real} py y coord
 /// @param {real} margin The board margin.
 /// @returns {id.instance<obj_battle_board>} Board instance
-function scr_find_board_under(px, py, margin) {
+function scr_find_board_under(px, py, margin) { // TODO: does not support exclude or and. unused anyways.
     var best = noone;
     var bestGap = 1000000000;
 	for (var i = 0; i < array_length(global.battle_boards); i++) {
@@ -251,7 +308,7 @@ function scr_find_board_under(px, py, margin) {
 		        // Check horizontal alignment: lx between -left and r	ight
 		        if (lx >= -left && lx <= right) {
 		            var gap = ly + margin + up; 
-		            // If gap >= 0, soul’s feet are below top edge (i.e. penetrating or on), treat as on-board.
+		            // If gap >= 0, soul's feet are below top edge (i.e. penetrating or on), treat as on-board.
 		            // If gap < 0, soul is above board; vertical distance = -gap.
 		            if (gap >= 0) {
 		                // soul is at or below top: treat as standing (penetration), gap=0

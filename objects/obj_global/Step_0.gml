@@ -99,6 +99,12 @@ if (global.debug)
 			debug_fps_lock ^= 1;
 		if (keyboard_check_pressed(ord("H")))
 			global.show_hitbox ^= 1;
+		if (keyboard_check_pressed(ord("B")))
+			global.debug_show_board ^= 1;
+		if (keyboard_check_pressed(ord("P"))) {
+			global.debug_show_fail_soul ^= 1;
+			global.__failed_soul_pos = [];
+		}
 	}
 		
 	if (Player_IsInBattle())

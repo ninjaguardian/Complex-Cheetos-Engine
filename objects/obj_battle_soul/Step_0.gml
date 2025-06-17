@@ -104,15 +104,15 @@ if (_battle_state == BATTLE_STATE.TURN_PREPARATION || _battle_state == BATTLE_ST
 			
 			var margin = max(sprite_width, sprite_height)/2;
 				
-			var _ground_top = !scr_point_in_union(_r_x, _r_y + _displace_y, margin),
-				_ground_bottom = !scr_point_in_union(_r_x, _r_y + _displace_y, margin),
-				_ground_left   = !scr_point_in_union(_r_x + _displace_x, _r_y, margin),
-				_ground_right  = !scr_point_in_union(_r_x + _displace_x, _r_y, margin);
+			var _ground_top = !scr_point_in_battle_box(_r_x, _r_y + _displace_y, margin),
+				_ground_bottom = !scr_point_in_battle_box(_r_x, _r_y + _displace_y, margin),
+				_ground_left   = !scr_point_in_battle_box(_r_x + _displace_x, _r_y, margin),
+				_ground_right  = !scr_point_in_battle_box(_r_x + _displace_x, _r_y, margin);
 				
-			var _ceil_top    = !scr_point_in_union(_r_x, _r_y - _displace_y, margin),
-				_ceil_bottom = !scr_point_in_union(_r_x, _r_y - _displace_y, margin),
-				_ceil_left   = !scr_point_in_union(_r_x - _displace_x, _r_y, margin),
-				_ceil_right  = !scr_point_in_union(_r_x - _displace_x, _r_y, margin);
+			var _ceil_top    = !scr_point_in_battle_box(_r_x, _r_y - _displace_y, margin),
+				_ceil_bottom = !scr_point_in_battle_box(_r_x, _r_y - _displace_y, margin),
+				_ceil_left   = !scr_point_in_battle_box(_r_x - _displace_x, _r_y, margin),
+				_ceil_right  = !scr_point_in_battle_box(_r_x - _displace_x, _r_y, margin);
 			#endregion
 			
 			#region Collision processing
@@ -263,7 +263,7 @@ if (_battle_state == BATTLE_STATE.TURN_PREPARATION || _battle_state == BATTLE_ST
 	#region Soul clamping (aka the soul stay inside the board)
 	// Collision check for the main bullet board
 	if (_board_exists) {
-	    var arr = scr_clamp_to_union(x, y, global.main_battle_board.x, global.main_battle_board.y, max(sprite_width, sprite_height)/2);
+	    var arr = scr_clamp_to_battle_box(x, y, xprevious, yprevious, max(sprite_width, sprite_height)/2, global.main_battle_board.x, global.main_battle_board.y);
 	    x = arr[0];
 	    y = arr[1];
 	}

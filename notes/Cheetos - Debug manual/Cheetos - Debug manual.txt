@@ -23,4 +23,6 @@ Shift + E					|		(Battle-only) End the current attack instantly.
 Ctrl + L					|		Lock/unlock the game speed.
 Ctrl + H					|		(Battle-only) Show the bullet's hitbox.
 Ctrl + Left/Right/A/S		|		(Battle-only) Increase/decrease the turn number.
+Ctrl + B					|		(Battle-only) Show the battle board surface.
+Ctrl + P					|		(Battle-only) Show failed soul placement.
 

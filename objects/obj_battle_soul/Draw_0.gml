@@ -18,3 +18,10 @@ if (_hp_above_alpha != 0) {
 	var __text_to_draw = string(Player_GetHp());
 	draw_text_color(x-string_width(__text_to_draw)/2+1, y - string_height(string_width) - 10, __text_to_draw, _color_final, _color_final, _color_final, _color_final, _hp_above_alpha);
 }
+
+if (global.debug_show_fail_soul) {
+	for (var i = 0; i < array_length(global.__failed_soul_pos); i++) {
+	    var coords = global.__failed_soul_pos[i];
+		draw_sprite_ext(spr_battle_soul,0,coords[0],coords[1],1,1,-90,c_lime,0.5);
+	}
+}

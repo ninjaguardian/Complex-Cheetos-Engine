@@ -1,7 +1,7 @@
 if (_board_type != BATTLE_BOARD_TYPES.MAIN) {
 	return
 }
-if (global.debug) {
+if (global.debug_show_board) {
 	draw_surface(_surface_mask, 0, 0);
 	return;
 }
