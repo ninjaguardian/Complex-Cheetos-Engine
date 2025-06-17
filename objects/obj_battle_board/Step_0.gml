@@ -117,7 +117,7 @@ draw_surface(surface_clip, 0, 0);
 
 #region Arbitrary Clipping via shader
 if (!surface_exists(surface_mask))
-    surface_mask = surface_create(640, 480);
+    surface_mask = surface_create(room_width, room_height);
 
 surface_set_target(surface_mask);
 	draw_clear_alpha(c_black, 0);

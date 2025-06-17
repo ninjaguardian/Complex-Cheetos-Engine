@@ -51,13 +51,12 @@ if (_board_type == BATTLE_BOARD_TYPES.MAIN) {
 	shd_mask_clip_mask =	shader_get_uniform(shd_mask_clip, "u_mask");
 	shd_mask_clip_bgcolor = shader_get_uniform(shd_mask_clip  , "u_bgcolor");
 	
-	shd_mask_outline_mask =			shader_get_uniform(shd_mask_outline, "u_mask");
-	shd_mask_outline_border =		shader_get_uniform(shd_mask_outline, "u_border");
-	shd_mask_outline_borderWidth =	shader_get_uniform(shd_mask_outline, "u_borderWidth");
-	shd_mask_outline_thickness =	shader_get_uniform(shd_mask_outline, "u_thickness");
-	shd_mask_outline_viewSize =		shader_get_uniform(shd_mask_outline, "u_viewSize");
+	shd_mask_outline_mask =	  shader_get_uniform(shd_mask_outline, "u_mask");
+	shd_mask_outline_texel =  shader_get_uniform(shd_mask_outline, "u_texelSize");
+	shd_mask_outline_color =  shader_get_uniform(shd_mask_outline, "u_outlinecolor");
+	shd_mask_outline_radius = shader_get_uniform(shd_mask_outline, "u_outlineRadius");
 
-	frame_thickness = 5.0;
+	frame_thickness = 5;
 }
 
 array_push(global.battle_boards, id);

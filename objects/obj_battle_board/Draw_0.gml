@@ -21,11 +21,9 @@ shader_reset();
 shader_set(shd_mask_outline);
 	texture_set_stage(0, surface_get_texture(surface_mask));
 	shader_set_uniform_i(shd_mask_outline_mask, 0);
-	texture_set_stage(1, sprite_get_texture(spr_battle_board, 0));
-	shader_set_uniform_i(shd_mask_outline_border, 1);
-	shader_set_uniform_f(shd_mask_outline_borderWidth, 32);
-	shader_set_uniform_f(shd_mask_outline_thickness, frame_thickness);
-	shader_set_uniform_f(shd_mask_outline_viewSize, room_width, room_height);
-	
-	draw_sprite_ext(spr_pixel_center, 0, room_width/2, room_height/2, room_width/2, room_height/2, 0, c_white, 1);
+	shader_set_uniform_f(shd_mask_outline_texel, 1.0 / room_width, 1.0 / room_height);
+	shader_set_uniform_f(shd_mask_outline_color, 1,1,1,1);
+	shader_set_uniform_f(shd_mask_outline_radius, frame_thickness);
+		
+	draw_rectangle(1, 1, room_width-2, room_height-1, false);
 shader_reset();
