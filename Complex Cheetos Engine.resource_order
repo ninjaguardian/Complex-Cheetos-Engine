@@ -809,6 +809,7 @@
     {"name":"voice_typer","order":1,"path":"sounds/voice_typer/voice_typer.yy",},
     {"name":"sans_sheet_by_Kuri_01","order":7,"path":"sprites/sans_sheet_by_Kuri_01/sans_sheet_by_Kuri_01.yy",},
     {"name":"scribble_fallback_bulletpoint","order":22,"path":"sprites/scribble_fallback_bulletpoint/scribble_fallback_bulletpoint.yy",},
+    {"name":"spr_battle_board","order":5,"path":"sprites/spr_battle_board/spr_battle_board.yy",},
     {"name":"spr_battle_button_act","order":1,"path":"sprites/spr_battle_button_act/spr_battle_button_act.yy",},
     {"name":"spr_battle_button_item","order":2,"path":"sprites/spr_battle_button_item/spr_battle_button_item.yy",},
     {"name":"spr_battle_button_mercy","order":3,"path":"sprites/spr_battle_button_mercy/spr_battle_button_mercy.yy",},

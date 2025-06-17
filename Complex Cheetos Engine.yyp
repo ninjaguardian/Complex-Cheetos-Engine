@@ -968,6 +968,7 @@
     {"id":{"name":"voice_typer","path":"sounds/voice_typer/voice_typer.yy",},},
     {"id":{"name":"sans_sheet_by_Kuri_01","path":"sprites/sans_sheet_by_Kuri_01/sans_sheet_by_Kuri_01.yy",},},
     {"id":{"name":"scribble_fallback_bulletpoint","path":"sprites/scribble_fallback_bulletpoint/scribble_fallback_bulletpoint.yy",},},
+    {"id":{"name":"spr_battle_board","path":"sprites/spr_battle_board/spr_battle_board.yy",},},
     {"id":{"name":"spr_battle_button_act","path":"sprites/spr_battle_button_act/spr_battle_button_act.yy",},},
     {"id":{"name":"spr_battle_button_fight","path":"sprites/spr_battle_button_fight/spr_battle_button_fight.yy",},},
     {"id":{"name":"spr_battle_button_item","path":"sprites/spr_battle_button_item/spr_battle_button_item.yy",},},
