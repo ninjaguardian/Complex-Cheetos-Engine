@@ -42,6 +42,7 @@ function scr_get_rotated_corners(left, right, up, down, cx, cy, a) {
 /// @param {Real} margin The board margin.
 /// @returns {bool} Is the point in the instance's rotated rectangle?
 function scr_point_in_board(_inst, px, py, margin) {
+	if (_inst == noone || !instance_exists(_inst)) return false;
 	var bx = _inst.x;
 	var by = _inst.y;
 	var left = _inst.left;
@@ -194,7 +195,7 @@ function scr_project_to_rect_edge(inst, nx, ny, margin) {
  * @param {real} fallback_y If prev_y is outside the board, go here.
  * @returns {array<Real>} If (nx,ny) is inside the battle box, returns [nx, ny]. Else nearest point on boundary, or [prev_x, prev_y].
  */
-function scr_clamp_to_battle_box(nx, ny, prev_x, prev_y, margin, fallback_x, fallback_y) {
+function scr_clamp_to_battle_box(nx, ny, prev_x, prev_y, margin, fallback_x, fallback_y) { // TODO: make it instead fallback to a closer point, also if fallback is out of bounds, ur cooked.
     if (scr_point_in_battle_box(nx, ny, margin)) {
         return [nx, ny];
     }
@@ -216,9 +217,9 @@ function scr_clamp_to_battle_box(nx, ny, prev_x, prev_y, margin, fallback_x, fal
 	        var proj = scr_project_to_rect_edge(id, nx, ny, _board_type == BATTLE_BOARD_TYPES.EXCLUDE ? -margin : margin);
 	        var wx = proj[0], wy = proj[1], inside = proj[2];
 
-			var isMainOrOr = (_board_type == BATTLE_BOARD_TYPES.MAIN || _board_type == BATTLE_BOARD_TYPES.OR);
+			var isUnion = (_board_type == BATTLE_BOARD_TYPES.MAIN || _board_type == BATTLE_BOARD_TYPES.OR || _board_type == BATTLE_BOARD_TYPES.AND);
 			var isExclude  = (_board_type == BATTLE_BOARD_TYPES.EXCLUDE);
-			var wantClamp  = (isMainOrOr && inside = false)
+			var wantClamp  = (isUnion && inside = false)
 			               || (isExclude && inside = true);
 			if (!wantClamp) {
 			    continue;
@@ -295,7 +296,7 @@ function scr_local_to_world(inst, lx, ly) {
 /// @param {real} py y coord
 /// @param {real} margin The board margin.
 /// @returns {id.instance<obj_battle_board>} Board instance
-function scr_find_board_under(px, py, margin) { // TODO: does not support exclude or and. unused anyways.
+function scr_find_board_under(px, py, margin) { // TODO: does not support exclude or and. unused anyways :P
     var best = noone;
     var bestGap = 1000000000;
 	for (var i = 0; i < array_length(global.battle_boards); i++) {

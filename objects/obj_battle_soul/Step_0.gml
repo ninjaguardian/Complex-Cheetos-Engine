@@ -102,8 +102,6 @@ if (_battle_state == BATTLE_STATE.TURN_PREPARATION || _battle_state == BATTLE_ST
 				_displace_x = lengthdir_x(_x_offset + (_board_thickness / 2), _angle) + (2 * dcos(_board_angle % 90)),
 				_displace_y = lengthdir_y(_y_offset + (_board_thickness / 2), _angle) + (2 * dsin((_board_angle % 90) + 90));
 			
-			var margin = max(sprite_width, sprite_height)/2;
-				
 			var _ground_top = !scr_point_in_battle_box(_r_x, _r_y + _displace_y, margin),
 				_ground_bottom = !scr_point_in_battle_box(_r_x, _r_y + _displace_y, margin),
 				_ground_left   = !scr_point_in_battle_box(_r_x + _displace_x, _r_y, margin),

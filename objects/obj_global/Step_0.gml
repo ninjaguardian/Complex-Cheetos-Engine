@@ -102,8 +102,12 @@ if (global.debug)
 		if (keyboard_check_pressed(ord("B")))
 			global.debug_show_board ^= 1;
 		if (keyboard_check_pressed(ord("P"))) {
-			global.debug_show_fail_soul ^= 1;
-			global.__failed_soul_pos = [];
+			if (keyboard_check(vk_shift)) {
+				global.debug_test_fail_soul ^= 1;
+			} else {
+				global.debug_show_fail_soul ^= 1;
+				global.__failed_soul_pos = [];
+			}
 		}
 	}
 		

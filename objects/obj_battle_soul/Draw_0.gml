@@ -25,3 +25,7 @@ if (global.debug_show_fail_soul) {
 		draw_sprite_ext(spr_battle_soul,0,coords[0],coords[1],1,1,-90,c_lime,0.5);
 	}
 }
+
+if (global.debug_test_fail_soul) {
+	draw_sprite_ext(spr_battle_soul,0,mouse_x,mouse_y,1,1,-90,scr_point_in_battle_box(mouse_x,mouse_y,margin) ? c_lime : c_purple,1);
+}

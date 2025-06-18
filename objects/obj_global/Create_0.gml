@@ -70,6 +70,7 @@ with (global)
 	
 	debug_show_board = 0;
 	debug_show_fail_soul = 0;
+	debug_test_fail_soul = 0;
 	__failed_soul_pos = [];
 }
 debug_fps_lock = false;

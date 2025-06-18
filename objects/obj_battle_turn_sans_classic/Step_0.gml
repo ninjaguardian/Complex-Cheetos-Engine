@@ -7,13 +7,13 @@ switch (turn)
 		if (timer == 15)
 			Battle_Flash(off);
 		if (timer == 500)
-			OR_test = Battle_AddNewBoard(20, 320, BATTLE_BOARD_TYPES.EXCLUDE, BATTLE_BOARD.UP, BATTLE_BOARD.DOWN);
+			OR_test = Battle_AddNewBoard(BATTLE_BOARD.X, BATTLE_BOARD.Y, BATTLE_BOARD_TYPES.AND, 500, 500, 500, 500);
 		if (timer == 501)
-			Battle_SetBoardSize(BATTLE_BOARD.UP, BATTLE_BOARD.DOWN, BATTLE_BOARD.LEFT, BATTLE_BOARD.RIGHT, 30, "", 0, OR_test);
+			Battle_SetBoardSize(50, 50, 500, 500, 30, "", 0, OR_test);
 		if (timer == 300)
 			Battle_SetBoardAngle(60+720,25*25);
-		//if (timer == 600)
-			//Battle_SetBoardAngle(45, 25, "", 0, OR_test);
+		//if (timer == 1000)
+		//	Battle_SetBoardAngle(45, 25, "", 0, OR_test);
 		if (timer == 5000)
 			Battle_EndTurn();
 		break;

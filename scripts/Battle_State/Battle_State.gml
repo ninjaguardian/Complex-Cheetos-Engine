@@ -187,7 +187,7 @@ function Battle_BoardTransforming(_state_prefix)
 		    
 		    Battle_BoardTransform("move", _move_old, _move_target, _move_ease, _move_mode, _move_speed, _move_duration);
 		    Battle_BoardTransform("size", _size_old, _size_target, _size_ease, _size_mode, _size_speed, _size_duration);
-		    Battle_BoardTransform("rot", _rot_old, _rot_target, _rot_ease, _rot_mode, _rot_speed, _rot_duration);
+		    Battle_BoardTransform("rot", _rot_old, _rot_target, _rot_ease, _rot_mode, _rot_speed, _rot_duration); // TODO: should probably test this and add more optimizations for less turning. also, does always get reset to 0?
 			break;
 	}
 }

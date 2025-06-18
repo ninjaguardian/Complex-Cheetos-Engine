@@ -18,6 +18,7 @@ bg_color = c_black;
 if (_board_type == BATTLE_BOARD_TYPES.MAIN) {
 	global.main_battle_board = id;
 	_surface_mask = -1;
+	_and_mask = -1;
 	
 	_shd_mask_clip_mask =	 shader_get_uniform(shd_mask_clip, "u_mask");
 	_shd_mask_clip_bgcolor = shader_get_uniform(shd_mask_clip  , "u_bgcolor");

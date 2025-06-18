@@ -46,3 +46,5 @@ part_type_alpha2(__after_effect_type, 1, 0);
 hp_above = false;
 hp_above_alpha_change = 0.05;
 _hp_above_alpha = 0;
+
+margin = max(sprite_width, sprite_height)/2;

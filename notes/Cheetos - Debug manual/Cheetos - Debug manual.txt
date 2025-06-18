@@ -20,9 +20,9 @@ Shift + F					|		Speed up the game 10 times. (600 FPS)
 Shift + R					|		Reset game speed back to normal. (60 FPS)
 Shift + H					|		Set the player's HP to max and clear all status.
 Shift + E					|		(Battle-only) End the current attack instantly.
+Shift + Ctrl + P			|		(Battle-only) Use mouse to test soul placement.
+Ctrl + P					|		(Battle-only) Show failed soul placement.
 Ctrl + L					|		Lock/unlock the game speed.
 Ctrl + H					|		(Battle-only) Show the bullet's hitbox.
 Ctrl + Left/Right/A/S		|		(Battle-only) Increase/decrease the turn number.
 Ctrl + B					|		(Battle-only) Show the battle board surface.
-Ctrl + P					|		(Battle-only) Show failed soul placement.
-

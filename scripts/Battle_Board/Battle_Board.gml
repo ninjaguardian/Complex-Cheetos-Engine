@@ -88,7 +88,7 @@ function Battle_BoardMaskReset() {
  * Adds another battle board.
  * @param {real} x The x position of the board.
  * @param {real} y The y position of the board.
- * @param {any*} type The BATTLE_BOARD_TYPES of the board.
+ * @param {real} type The BATTLE_BOARD_TYPES of the board.
  * @param {real} [up] How far should it extend up? (Default: 0)
  * @param {real} [down] How far should it extend down? (Default: 0)
  * @param {real} [left] How far should it extend left? (Default: 0)

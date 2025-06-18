@@ -18,7 +18,7 @@ float computeDistance(float dx, float dy, int type) {
         return abs(dx) + abs(dy);
     } else {
         // Circular (Euclidean)
-        return length(vec2(dx, dy));
+        return length(vec2(dx, dy)); // TODO: should bevel inside too
     }
 }
 
