@@ -72,9 +72,9 @@ function scr_point_in_board(_inst, px, py, margin) {
 
 	// Check against shrunk axis-aligned bounds
 	if (local_x >= -left2 && local_x <= right2 && local_y >= -up2 && local_y <= down2) {
-	    return true;
+		return true;
 	} else {
-	    return false;
+		return false;
 	}
 }
 
@@ -89,27 +89,27 @@ function scr_point_in_board(_inst, px, py, margin) {
 function scr_point_in_battle_box(px, py, margin, exclude=noone) {
 	var in_board = false;
 	for (var i = 0; i < array_length(global.battle_boards); i++) {
-	    var instID = global.battle_boards[i];
+		var instID = global.battle_boards[i];
 		if (exclude == instID) continue; 
-	    if (instance_exists(instID)) {
-	        with (instID) {
+		if (instance_exists(instID)) {
+			with (instID) {
 				switch (_board_type) {
 					case BATTLE_BOARD_TYPES.MAIN:
 					case BATTLE_BOARD_TYPES.OR:
-				        if (!in_board && scr_point_in_board(id, px, py, margin))
+						if (!in_board && scr_point_in_board(id, px, py, margin))
 							in_board = true;
 						break;
 					case BATTLE_BOARD_TYPES.EXCLUDE:
-				        if (in_board && scr_point_in_board(id, px, py, -margin+1)) // TODO: test value
+						if (in_board && scr_point_in_board(id, px, py, -margin+1)) // TODO: test margin
 							in_board = false;
 						break;
 					case BATTLE_BOARD_TYPES.AND:
-				        if (in_board && !scr_point_in_board(id, px, py, margin)) // TODO: change margin
+						if (in_board && !scr_point_in_board(id, px, py, margin)) // TODO: test margin
 							in_board = false;
 						break;
 				}
-	        }
-	    }
+			}
+		}
 	}
 	return in_board;
 }
@@ -130,57 +130,57 @@ function scr_point_in_battle_box(px, py, margin, exclude=noone) {
  * but inside=true. If (nx,ny) is outside, inside=false.
  */
 function scr_project_to_rect_edge(inst, nx, ny, margin) {
-    var bx = inst.x, by = inst.y;
-    var a  = inst.image_angle;
-    var left2  = inst.left  - margin; if (left2 < 0) left2 = 0;
-    var right2 = inst.right - margin; if (right2 < 0) right2 = 0;
-    var up2    = inst.up    - margin; if (up2 < 0) up2 = 0;
-    var down2  = inst.down  - margin; if (down2 < 0) down2 = 0;
+	var bx = inst.x, by = inst.y;
+	var a  = inst.image_angle;
+	var left2  = inst.left  - margin; if (left2 < 0) left2 = 0;
+	var right2 = inst.right - margin; if (right2 < 0) right2 = 0;
+	var up2    = inst.up    - margin; if (up2 < 0) up2 = 0;
+	var down2  = inst.down  - margin; if (down2 < 0) down2 = 0;
 
-    var arrL = scr_world_to_local(inst, nx, ny);
-    var lx = arrL[0], ly = arrL[1];
+	var arrL = scr_world_to_local(inst, nx, ny);
+	var lx = arrL[0], ly = arrL[1];
 
-    var inside = (lx >= -left2 && lx <= right2 && ly >= -up2 && ly <= down2);
+	var inside = (lx >= -left2 && lx <= right2 && ly >= -up2 && ly <= down2);
 
-    // Compute clamp to edge: nearest x-edge or y-edge
-    // Compute distances to edges:
-    var dist_left   = lx + left2;
-    var dist_right  = right2 - lx;
-    var dist_top    = ly + up2;
-    var dist_bottom = down2 - ly;
+	// Compute clamp to edge: nearest x-edge or y-edge
+	// Compute distances to edges:
+	var dist_left   = lx + left2;
+	var dist_right  = right2 - lx;
+	var dist_top    = ly + up2;
+	var dist_bottom = down2 - ly;
 
-    // If outside, some of these may be negative. Still pick the smallest absolute distance?
-    // To project onto edge, clamp lx, ly within [-left2, right2] and [-up2, down2].
-    var clx = lx, cly = ly;
-    // Clamp x:
-    if (lx < -left2) clx = -left2;
-    else if (lx > right2) clx = right2;
-    // Clamp y:
-    if (ly < -up2) cly = -up2;
-    else if (ly > down2) cly = down2;
+	// If outside, some of these may be negative. Still pick the smallest absolute distance?
+	// To project onto edge, clamp lx, ly within [-left2, right2] and [-up2, down2].
+	var clx = lx, cly = ly;
+	// Clamp x:
+	if (lx < -left2) clx = -left2;
+	else if (lx > right2) clx = right2;
+	// Clamp y:
+	if (ly < -up2) cly = -up2;
+	else if (ly > down2) cly = down2;
 
-    // Now (clx,cly) lies on or inside the shrunk rect.
-    if (inside) {
-        // Find minimal distance to each edge:
-        var dL = abs(dist_left);
-        var dR = abs(dist_right);
-        var dT = abs(dist_top);
-        var dB = abs(dist_bottom);
-        var dmin = dL; var edge = 0;
-        if (dR < dmin) { dmin = dR; edge = 1; }
-        if (dT < dmin) { dmin = dT; edge = 2; }
-        if (dB < dmin) { dmin = dB; edge = 3; }
-        switch(edge) {
-            case 0: clx = -left2; break;
-            case 1: clx = right2; break;
-            case 2: cly = -up2;   break;
-            case 3: cly = down2;  break;
-        }
-    }
-    // If outside, (clx,cly) is already the projection onto the rectangle boundary (or corner).
+	// Now (clx,cly) lies on or inside the shrunk rect.
+	if (inside) {
+		// Find minimal distance to each edge:
+		var dL = abs(dist_left);
+		var dR = abs(dist_right);
+		var dT = abs(dist_top);
+		var dB = abs(dist_bottom);
+		var dmin = dL; var edge = 0;
+		if (dR < dmin) { dmin = dR; edge = 1; }
+		if (dT < dmin) { dmin = dT; edge = 2; }
+		if (dB < dmin) { dmin = dB; edge = 3; }
+		switch(edge) {
+			case 0: clx = -left2; break;
+			case 1: clx = right2; break;
+			case 2: cly = -up2;   break;
+			case 3: cly = down2;  break;
+		}
+	}
+	// If outside, (clx,cly) is already the projection onto the rectangle boundary (or corner).
 
-    var arrW = scr_local_to_world(inst, clx, cly);
-    return [arrW[0], arrW[1], inside];
+	var arrW = scr_local_to_world(inst, clx, cly);
+	return [arrW[0], arrW[1], inside];
 }
 
 /**
@@ -197,50 +197,50 @@ function scr_project_to_rect_edge(inst, nx, ny, margin) {
  */
 function scr_clamp_to_battle_box(nx, ny, prev_x, prev_y, margin, fallback_x, fallback_y) { // TODO: make it instead fallback to a closer point, also if fallback is out of bounds, ur cooked.
 	if (scr_point_in_battle_box(nx, ny, margin)) {
-        return [nx, ny];
-    }
-    var best_x = prev_x, best_y = prev_y;
+		return [nx, ny];
+	}
+	var best_x = prev_x, best_y = prev_y;
 	if (!scr_point_in_battle_box(best_x, best_y, margin)) {
 		if (global.debug_show_fail_soul) {
 			array_push(global.__failed_soul_pos, [best_x, best_y]);
 		}
 		best_x = fallback_x; best_y = fallback_y;
 	}
-    var best_dist2 = 1000000000;
+	var best_dist2 = 1000000000;
 
-    for (var i = 0; i < array_length(global.battle_boards); i++) {
-        var instID = global.battle_boards[i];
-        if (!instance_exists(instID)) continue;
+	for (var i = 0; i < array_length(global.battle_boards); i++) {
+		var instID = global.battle_boards[i];
+		if (!instance_exists(instID)) continue;
 
 		with (instID) {
-	        // Project onto this board's shrunk rect edge:
-	        var proj = scr_project_to_rect_edge(id, nx, ny, _board_type == BATTLE_BOARD_TYPES.EXCLUDE ? -margin : margin);
-	        var wx = proj[0], wy = proj[1], inside = proj[2];
+			// Project onto this board's shrunk rect edge:
+			var proj = scr_project_to_rect_edge(id, nx, ny, _board_type == BATTLE_BOARD_TYPES.EXCLUDE ? -margin : margin);
+			var wx = proj[0], wy = proj[1], inside = proj[2];
 
 			var isUnion = (_board_type == BATTLE_BOARD_TYPES.MAIN || _board_type == BATTLE_BOARD_TYPES.OR || _board_type == BATTLE_BOARD_TYPES.AND);
 			var isExclude  = (_board_type == BATTLE_BOARD_TYPES.EXCLUDE);
 			var wantClamp  = (isUnion && inside = false)
-			               || (isExclude && inside = true);
+						   || (isExclude && inside = true);
 			if (!wantClamp) {
-			    continue;
+				continue;
 			}
 			// Now verify candidate lies in allowed area:
 			if (!scr_point_in_battle_box(wx, wy, margin)) {
 				if (global.debug_show_fail_soul) {
 					array_push(global.__failed_soul_pos, [wx, wy]);
 				}
-			    continue;
+				continue;
 			}
 
-	        // Accept candidate if closer
-	        var d2 = sqr(nx - wx) + sqr(ny - wy);
-	        if (d2 < best_dist2) {
-	            best_dist2 = d2;
-	            best_x = wx;
-	            best_y = wy;
-	        }
+			// Accept candidate if closer
+			var d2 = sqr(nx - wx) + sqr(ny - wy);
+			if (d2 < best_dist2) {
+				best_dist2 = d2;
+				best_x = wx;
+				best_y = wy;
+			}
 		}
-    }
+	}
 	
 	if (best_dist2 > 1000) { // arbitrary number
 		var candidate = scr_find_nearest_inside(nx, ny, margin, 200, 4, 15), // a bit janky and it makes you shake, but it is still better than shooting you across the board.
@@ -249,7 +249,7 @@ function scr_clamp_to_battle_box(nx, ny, prev_x, prev_y, margin, fallback_x, fal
 			return [c_x, c_y];
 		}
 	}
-    return [best_x, best_y];
+	return [best_x, best_y];
 }
 
 
@@ -305,74 +305,72 @@ function scr_local_to_world(inst, lx, ly) {
 /// @param {real} margin The board margin.
 /// @returns {id.instance<obj_battle_board>} Board instance
 function scr_find_board_under(px, py, margin) { // TODO: does not support exclude or and. unused anyways :P
-    var best = noone;
-    var bestGap = 1000000000;
+	var best = noone;
+	var bestGap = 1000000000;
 	for (var i = 0; i < array_length(global.battle_boards); i++) {
-	    var instID = global.battle_boards[i];
-	    if (instance_exists(instID)) {
-	        with (instID) {
-		        if (_board_type != BATTLE_BOARD_TYPES.MAIN && _board_type != BATTLE_BOARD_TYPES.OR) continue;
-		        var arr = scr_world_to_local(id, px, py);
-		        var lx = arr[0], ly = arr[1];
-		        // Check horizontal alignment: lx between -left and r	ight
-		        if (lx >= -left && lx <= right) {
-		            var gap = ly + margin + up; 
-		            // If gap >= 0, soul's feet are below top edge (i.e. penetrating or on), treat as on-board.
-		            // If gap < 0, soul is above board; vertical distance = -gap.
-		            if (gap >= 0) {
-		                // soul is at or below top: treat as standing (penetration), gap=0
-		                gap = 0;
-		            } else {
-		                gap = -gap;
-		            }
-		            // Only consider if the soul is not far below bottom: check ly - soul_half_h <= down
-		            if (ly - margin <= down) {
-		                // Candidate. We want smallest gap.
-		                if (gap < bestGap) {
-		                    bestGap = gap;
-		                    best = id;
-		                }
-		            }
-		        }
-	        }
-	    }
+		var instID = global.battle_boards[i];
+		if (instance_exists(instID)) {
+			with (instID) {
+				if (_board_type != BATTLE_BOARD_TYPES.MAIN && _board_type != BATTLE_BOARD_TYPES.OR) continue;
+				var arr = scr_world_to_local(id, px, py);
+				var lx = arr[0], ly = arr[1];
+				// Check horizontal alignment: lx between -left and r	ight
+				if (lx >= -left && lx <= right) {
+					var gap = ly + margin + up; 
+					// If gap >= 0, soul's feet are below top edge (i.e. penetrating or on), treat as on-board.
+					// If gap < 0, soul is above board; vertical distance = -gap.
+					if (gap >= 0) {
+						// soul is at or below top: treat as standing (penetration), gap=0
+						gap = 0;
+					} else {
+						gap = -gap;
+					}
+					// Only consider if the soul is not far below bottom: check ly - soul_half_h <= down
+					if (ly - margin <= down) {
+						// Candidate. We want smallest gap.
+						if (gap < bestGap) {
+							bestGap = gap;
+							best = id;
+						}
+					}
+				}
+			}
+		}
 	}
-    return best;
+	return best;
 }
 
-/// scr_find_nearest_inside(nx, ny, margin, max_radius, radius_step, angle_step)
-/// Returns [x,y] nearest to (nx,ny) that satisfies scr_point_in_battle_box, or [nx,ny] if none found.
-/// - margin: board margin passed to scr_point_in_battle_box
-/// - max_radius: how far (in pixels) to search
-/// - radius_step: increment of radius per loop
-/// - angle_step: degrees between samples on each ring
+/// @desc Returns [x,y] nearest to (nx,ny) that satisfies scr_point_in_battle_box, or [nx,ny] if none found.
+/// If found, [x,y] is the first hit (nearest by radius).
+/// If you want exact nearest, you would need to continue scanning the same radius ring to pick the minimal distance (not implemented), or check in smaller offsets.
+/// @param {real} nx The current x coord.
+/// @param {real} ny The current y coord.
+/// @param {real} margin The board margin passed to scr_point_in_battle_box.
+/// @param {real} max_radius How far (in pixels) to search.
+/// @param {real} radius_step Increment of radius per loop.
+/// @param {real} angle_step Degrees between samples on each ring.
+/// @returns {array<real>} [x,y] coords.
 function scr_find_nearest_inside(nx, ny, margin, max_radius, radius_step, angle_step) {
-    // If already inside, return immediately
-    if (scr_point_in_battle_box(nx, ny, margin)) {
-        return [nx, ny];
-    }
-    var best_x = nx;
-    var best_y = ny;
-    var found = false;
+	// If already inside, return immediately
+	if (scr_point_in_battle_box(nx, ny, margin)) {
+		return [nx, ny];
+	}
+	var best_x = nx;
+	var best_y = ny;
+	var found = false;
 
-    // Spiral/radial search: increasing radius
-    for (var r = radius_step; r <= max_radius; r += radius_step) {
-        // sample around circle at radius r
-        for (var ang = 0; ang < 360; ang += angle_step) {
-            var cx = nx + lengthdir_x(r, ang);
-            var cy = ny + lengthdir_y(r, ang);
-            if (scr_point_in_battle_box(cx, cy, margin)) {
-                // found a candidate inside
-                best_x = cx;
-                best_y = cy;
-                found = true;
-                break;
-            }
-        }
-        if (found) break;
-    }
-    // if found, best_x/best_y is the first hit (nearest by radius). If you want exact nearest,
-    // you could continue scanning the same radius ring to pick minimal distance, or even check smaller offsets.
-    // If none found within max_radius, return original or some fallback.
-    return found ? [best_x, best_y] : [nx, ny];
+	for (var r = radius_step; r <= max_radius; r += radius_step) {
+		for (var ang = 0; ang < 360; ang += angle_step) {
+			var cx = nx + lengthdir_x(r, ang);
+			var cy = ny + lengthdir_y(r, ang);
+			if (scr_point_in_battle_box(cx, cy, margin)) {
+				best_x = cx;
+				best_y = cy;
+				found = true;
+				break;
+			}
+		}
+		if (found) break;
+	}
+	return found ? [best_x, best_y] : [nx, ny];
 }
