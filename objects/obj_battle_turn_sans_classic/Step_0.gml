@@ -12,6 +12,10 @@ switch (turn)
 			Battle_SetBoardSize(50, 50, 500, 500, 30, "", 0, OR_test);
 		if (timer == 300)
 			Battle_SetBoardAngle(60+720,25*25);
+		if (timer == 700) {
+			Battle_AddNewBoard(BATTLE_BOARD.X, BATTLE_BOARD.Y, BATTLE_BOARD_TYPES.EXCLUDE, 500, 500, 20, 20);
+			Battle_AddNewBoard(BATTLE_BOARD.X, BATTLE_BOARD.Y, BATTLE_BOARD_TYPES.OR, 15, 15, 50, 50);
+		}
 		//if (timer == 1000)
 		//	Battle_SetBoardAngle(45, 25, "", 0, OR_test);
 		if (timer == 5000)

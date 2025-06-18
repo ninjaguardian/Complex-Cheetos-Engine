@@ -196,7 +196,7 @@ function scr_project_to_rect_edge(inst, nx, ny, margin) {
  * @returns {array<Real>} If (nx,ny) is inside the battle box, returns [nx, ny]. Else nearest point on boundary, or [prev_x, prev_y].
  */
 function scr_clamp_to_battle_box(nx, ny, prev_x, prev_y, margin, fallback_x, fallback_y) { // TODO: make it instead fallback to a closer point, also if fallback is out of bounds, ur cooked.
-    if (scr_point_in_battle_box(nx, ny, margin)) {
+	if (scr_point_in_battle_box(nx, ny, margin)) {
         return [nx, ny];
     }
     var best_x = prev_x, best_y = prev_y;
@@ -241,6 +241,14 @@ function scr_clamp_to_battle_box(nx, ny, prev_x, prev_y, margin, fallback_x, fal
 	        }
 		}
     }
+	
+	if (best_dist2 > 1000) { // arbitrary number
+		var candidate = scr_find_nearest_inside(nx, ny, margin, 200, 4, 15), // a bit janky and it makes you shake, but it is still better than shooting you across the board.
+			c_x = candidate[0], c_y = candidate[1];
+		if (sqr(nx - c_x) + sqr(ny - c_y) < best_dist2) {
+			return [c_x, c_y];
+		}
+	}
     return [best_x, best_y];
 }
 
@@ -330,4 +338,41 @@ function scr_find_board_under(px, py, margin) { // TODO: does not support exclud
 	    }
 	}
     return best;
+}
+
+/// scr_find_nearest_inside(nx, ny, margin, max_radius, radius_step, angle_step)
+/// Returns [x,y] nearest to (nx,ny) that satisfies scr_point_in_battle_box, or [nx,ny] if none found.
+/// - margin: board margin passed to scr_point_in_battle_box
+/// - max_radius: how far (in pixels) to search
+/// - radius_step: increment of radius per loop
+/// - angle_step: degrees between samples on each ring
+function scr_find_nearest_inside(nx, ny, margin, max_radius, radius_step, angle_step) {
+    // If already inside, return immediately
+    if (scr_point_in_battle_box(nx, ny, margin)) {
+        return [nx, ny];
+    }
+    var best_x = nx;
+    var best_y = ny;
+    var found = false;
+
+    // Spiral/radial search: increasing radius
+    for (var r = radius_step; r <= max_radius; r += radius_step) {
+        // sample around circle at radius r
+        for (var ang = 0; ang < 360; ang += angle_step) {
+            var cx = nx + lengthdir_x(r, ang);
+            var cy = ny + lengthdir_y(r, ang);
+            if (scr_point_in_battle_box(cx, cy, margin)) {
+                // found a candidate inside
+                best_x = cx;
+                best_y = cy;
+                found = true;
+                break;
+            }
+        }
+        if (found) break;
+    }
+    // if found, best_x/best_y is the first hit (nearest by radius). If you want exact nearest,
+    // you could continue scanning the same radius ring to pick minimal distance, or even check smaller offsets.
+    // If none found within max_radius, return original or some fallback.
+    return found ? [best_x, best_y] : [nx, ny];
 }
