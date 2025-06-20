@@ -4,8 +4,10 @@ switch (turn)
 		Battle_EndTurn();
 		break;
 	case 0:
-		if (timer == 15)
+		if (timer == 15) {
 			Battle_Flash(off);
+			Battle_SoulSlam(DIR.DOWN);
+		}
 		if (timer == 500)
 			OR_test = Battle_AddNewBoard(BATTLE_BOARD.X, BATTLE_BOARD.Y, BATTLE_BOARD_TYPES.AND, 500, 500, 500, 500);
 		if (timer == 501)

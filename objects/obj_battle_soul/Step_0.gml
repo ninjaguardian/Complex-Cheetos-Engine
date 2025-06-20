@@ -30,7 +30,7 @@ if (_battle_state == BATTLE_STATE.MENU && _menu_state == BATTLE_MENU.BUTTON)
 }
 if (_battle_state == BATTLE_STATE.TURN_PREPARATION || _battle_state == BATTLE_STATE.IN_TURN)
 {
-	image_angle %= 360;
+	image_angle = posmod(image_angle, 360);
 	var _angle = image_angle,
 		_angle_compensation = (_angle + 90) % 360;
 	
@@ -95,77 +95,43 @@ if (_battle_state == BATTLE_STATE.TURN_PREPARATION || _battle_state == BATTLE_ST
 			#endregion
 			
 			#region Position calculation
-			var _dist = point_distance(_board_x, _board_y, x, y),
-				_dir = point_direction(_board_x, _board_y, x, y) - _board_dir,
-				_r_x = lengthdir_x(_dist, _dir) + _board_x,
-				_r_y = lengthdir_y(_dist, _dir) + _board_y,
-				_displace_x = lengthdir_x(_x_offset + (_board_thickness / 2), _angle) + (2 * dcos(_board_angle % 90)),
-				_displace_y = lengthdir_y(_y_offset + (_board_thickness / 2), _angle) + (2 * dsin((_board_angle % 90) + 90));
+			var _small_offset = 0.001,
+				_displace_x = lengthdir_x(_x_offset+_small_offset, _angle),
+				_displace_y = lengthdir_y(_y_offset+_small_offset, _angle);
 			
-			var _ground_top = !scr_point_in_battle_box(_r_x, _r_y + _displace_y, margin),
-				_ground_bottom = !scr_point_in_battle_box(_r_x, _r_y + _displace_y, margin),
-				_ground_left   = !scr_point_in_battle_box(_r_x + _displace_x, _r_y, margin),
-				_ground_right  = !scr_point_in_battle_box(_r_x + _displace_x, _r_y, margin);
-				
-			var _ceil_top    = !scr_point_in_battle_box(_r_x, _r_y - _displace_y, margin),
-				_ceil_bottom = !scr_point_in_battle_box(_r_x, _r_y - _displace_y, margin),
-				_ceil_left   = !scr_point_in_battle_box(_r_x - _displace_x, _r_y, margin),
-				_ceil_right  = !scr_point_in_battle_box(_r_x - _displace_x, _r_y, margin);
+			_on_ground = !scr_point_in_battle_box(x + _displace_x, y + _displace_y, 0);
+			_on_ceil = !scr_point_in_battle_box(x - _displace_x, y - _displace_y, 0);
 			#endregion
 			
 			#region Collision processing
 			var _platform_check_position = array_create(4, 0);
 			#region Input and collision check of different directions of soul
-			if (_angle == DIR.UP)
+			if (_angle >= 45 && _angle <= 135)
 			{
-				if (_board_exists)
-				{
-					_on_ground = _ground_top;
-					_on_ceil = _ceil_top;
-				}
-				
 				_platform_check_position[2] = -10;
 				_platform_check_position[3] = -_y_offset;
 				
 				_jump_input = CHECK_DOWN;
 				_move_input = _hspeed * -_mspeed;
 			}
-			else if (_angle == DIR.DOWN)
+			else if (_angle >= 225 && _angle <= 315)
 			{
-				if (_board_exists)
-				{
-					_on_ground = _ground_bottom;
-					_on_ceil = _ceil_bottom;
-				}
-				
 				_platform_check_position[2] = _y_offset + 1;
 				_platform_check_position[3] = _y_offset;
 				
 				_jump_input = CHECK_UP;
 				_move_input = _hspeed * _mspeed;
 			}
-			else if (_angle == DIR.LEFT)
+			else if (_angle > 135 && _angle < 225)
 			{
-				if (_board_exists)
-				{
-					_on_ground = _ground_left;
-					_on_ceil = _ceil_left;
-				}
-				
 				_platform_check_position[0] = -10;
 				_platform_check_position[1] = _x_offset;
 				
 				_jump_input = CHECK_RIGHT;
 				_move_input = _vspeed * _mspeed;
 			}
-			else if (_angle == DIR.RIGHT)
+			else if (_angle < 45 || _angle > 315)
 			{
-				if (_board_exists)
-				{
-					_on_ground = _ground_right;
-					_on_ceil = _ceil_right;
-				}
-				
 				_platform_check_position[1] = _x_offset + 1;
 				_platform_check_position[0] = -_x_offset;
 				
@@ -180,7 +146,7 @@ if (_battle_state == BATTLE_STATE.TURN_PREPARATION || _battle_state == BATTLE_ST
 				_on_ground = false;
 				_on_ceil = false;
 			}
-			
+
 			// Platform checking
 			var _relative_x = x + _platform_check_position[0],
 				_relative_y = y + _platform_check_position[2];
